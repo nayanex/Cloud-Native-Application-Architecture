@@ -2,7 +2,7 @@
 
 ## Introduction to Cloud-Native
 
-[![Introduction To Cloud-Native](https://img.youtube.com/vi/J3avoSaPzZ4&t/0.jpg)](https://www.youtube.com/watch?v=J3avoSaPzZ4&t)
+[![Introduction To Cloud-Native](https://img.youtube.com/vi/J3avoSaPzZ4/0.jpg)](https://www.youtube.com/watch?v=J3avoSaPzZ4)
 
 Cloud-native refers to the set of practices that empowers an organization to **build and manage applications at scale**. They can achieve this goal by using private, hybrid, or public cloud providers. In addition to scale, an organization needs to be agile in integrating customer feedback and adapting to the surrounding technology ecosystem.
 
