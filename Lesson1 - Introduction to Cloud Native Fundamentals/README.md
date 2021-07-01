@@ -26,7 +26,7 @@ Overall, Kubernetes is a container orchestrator that is capable to solutionize t
 
 ## Stakeholders
 
-[![Stakeholders](https://img.youtube.com/vi/7ZYzviRREcI&t/0.jpg)](https://www.youtube.com/watch?v=7ZYzviRREcI&t)
+[![Stakeholders](https://img.youtube.com/vi/7ZYzviRREcI/0.jpg)](https://www.youtube.com/watch?v=7ZYzviRREcI)
 
 An engineering team can use cloud-native tooling to enable quick delivery of **value to customers** and **easily extend** to new features and technologies. These are the main reasons why an organization needs to adopt cloud-native technologies. However, when trialing cloud-native tooling, there are two main perspectives to address: business and technical stakeholders.
 
@@ -64,25 +64,21 @@ From a **technical perspective**, the adoption of cloud-native tooling represent
 
 [Nerd Fonts](https://www.nerdfonts.com/font-downloads)
 
+[Oficial Python Documentation](https://www.python.org/downloads/)
+
+
+### WSL commands and launch configurations
+
 ```
+cp ../../mnt/c/Users/NayanaHolandadeAbreu/.ssh/id_ed25519* .
+wsl --set-default-version 2
 Set-PoshPrompt
-```
 
 cert
 aliens
 mt
 remk
-
-Python, using the instructions provided in the [Oficial Python Documentation](https://www.python.org/downloads/)
-
-Python, using the instructions provided in the 
-
 ```
-wsl --set-default-version 2
-```
-
-### WSL commands and launch configurations
-03/26/2021
 
 ### Python Development with VSCode
 
@@ -95,11 +91,16 @@ wsl --set-default-version 2
 ### Git Config
 
 [Get started using Git on Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/tutorials/wsl-git)
+
 [Generating a new SSH key and adding it to the ssh-agent](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+
 [Sharing an existing SSH key between Windows and WSL](https://peteoshea.co.uk/setup-git-in-wsl/)
+
+[Add the public key to Azure DevOps Services/TFS](https://docs.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops)
+
 
 ### Other Resources
 
 [Download Kindle in your PC](https://www.amazon.com/b/ref=ruby_redirect?ie=UTF8&node=16571048011)
 
-`cp ../../mnt/c/Users/NayanaHolandadeAbreu/.ssh/id_ed25519* .`
+
