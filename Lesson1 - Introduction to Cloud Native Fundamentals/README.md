@@ -138,6 +138,7 @@ No source code needs to be on your local machine to gain these benefits since Re
 ### Other Resources
 
 [Download Kindle in your PC](https://www.amazon.com/b/ref=ruby_redirect?ie=UTF8&node=16571048011)
+[Free Web App to build workflows and diagrams](https://app.creately.com/)
 
 
 ### Docker
@@ -153,3 +154,4 @@ No source code needs to be on your local machine to gain these benefits since Re
 #### Useful Extensions/Plugins
 
 [Markdown Shortcuts](https://marketplace.visualstudio.com/items?itemName=mdickin.markdown-shortcuts)
+[Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
