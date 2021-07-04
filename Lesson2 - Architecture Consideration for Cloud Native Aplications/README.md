@@ -310,3 +310,41 @@ Resource consumption encapsulates the resources an application requires to be fu
 * [Logging Levels](https://www.tutorialspoint.com/log4j/log4j_logging_levels.htm) - explore possible logging levels and when they should be enabled
 * [Enabling Distributed Tracing for Microservices With Jaeger in Kubernetes](https://containerjournal.com/topics/container-ecosystems/enabling-distributed-tracing-for-microservices-with-jaeger-in-kubernetes/) - learn what tools can be used to implement tracing in a Kubernetes cluster
 
+## Quizzes: Best Practices For Application Deployment
+
+### QUESTION 1 OF 4
+
+What practice should be adopted to recreate the full journey of a request, including all the invoked functions?
+
+
+- [x] Health checks
+- [ ] Metrics
+- [ ] Logs
+- [ ] Tracing
+
+
+### QUESTION 2 OF 4
+
+Match the API endpoint or expected output with a recommended development practice:
+
+![QUIZ - Best Practices For Application Deployment](../images/Quizzes%20-%20Best%20Practices%20For%20Application%20Deployment.png)
+
+### QUESTION 3 OF 4
+
+During the implementation stage, what practices should be adopted by a development team?
+
+- [x] Building a metrics endpoint
+- [x] Incorporating tracing at the application layer
+- [x] Ensuring logs are captured when a failure occurs
+- [x] Benchmarking the amount of CPU and memory the application requires
+
+### QUESTION 4 OF 4
+
+What practice is used to get the status of an application at a point in time?
+
+- [ ] Tracing
+- [ ] Logs
+- [x] Health checks
+- [ ] Resource consumption
+
+;
