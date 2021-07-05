@@ -89,7 +89,7 @@ Set-PoshPrompt
 
 [Get started using Python for web development on Windows](https://docs.microsoft.com/en-us/windows/python/web-frameworks)
 
-[Oficial Python Documentation](https://www.python.org/downloads/)
+[Official Python Documentation](https://www.python.org/downloads/)
 
 [Linting Python in Visual Studio Code](https://code.visualstudio.com/docs/python/linting)
 
@@ -109,11 +109,16 @@ Set-PoshPrompt
 
 [Add the public key to Azure DevOps Services/TFS](https://docs.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops)
 
+Install Git Credential Manager Core in your VM
+
 [https://github.com/microsoft/Git-Credential-Manager-Core](https://github.com/microsoft/Git-Credential-Manager-Core)
 
 [Git Extension Pack](https://marketplace.visualstudio.com/items?itemName=donjayamanne.git-extension-pack)
 
 [Using Version Control in VS Code](https://code.visualstudio.com/docs/editor/versioncontrol#_git-support)
+
+[Authenticate with personal access tokens](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate)
+
 
 ### Accessing Virtual Machine Using VSCode
 
@@ -158,3 +163,84 @@ No source code needs to be on your local machine to gain these benefits since Re
 [Markdown Shortcuts](https://marketplace.visualstudio.com/items?itemName=mdickin.markdown-shortcuts)
 
 [Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
+
+
+## Python Tips and Tricks
+### To install pip for Python 3 on Ubuntu 20.04 
+
+```
+sudo apt update
+sudo apt install python3-pip
+pip3 --version
+```
+
+### Install Pipenv
+
+```
+pip install pipenv
+pip uninstall pipenv
+```
+#### for Python3:
+
+```
+python3 -m pip install --user pipenv
+```
+
+#### or for python2:
+
+```
+python -m pip install --user pipenv
+```
+
+> The scripts pipenv and pipenv-resolver are installed in `/home/<username>/.local/bin` which is not on PATH
+#### Add ~/.local/bin to PATH
+
+```
+echo 'export PATH="${HOME}/.local/bin:$PATH"' >> ~/.bashrc
+```
+
+You will then see a message:
+
+> ✔ Successfully created virtual environment!
+> Virtualenv location: /home/<username>/.local/share/virtualenvs/python-helloworld-Bn_pnRzN
+
+## Git Tips and Tricks
+
+```
+# If you haven't set up the remote repository, then run:
+
+git remote add origin https://gitlab.com/Harmelodic/MyNewProject.git
+git push origin <branch_name>
+
+# Example:
+
+git push origin master
+
+git fetch origin master
+```
+
+### Setting Global Git Username and Password
+
+```
+git config --global user.name "Your Name"
+git config --global user.email "youremail@yourdomain.com"
+```
+
+you are going to generate a folder on `$HOME` called `.gitconfig`
+
+### If you inspect the repo config you should get something like the following:
+
+> git config branch.master.remote
+origin
+
+> git config branch.master.merge
+refs/heads/master
+
+If not, you can manually set the branch to track upstream e.g.:
+
+> git branch --set-upstream-to origin/master
+### Check git credentials details
+
+```
+git config --list
+```
