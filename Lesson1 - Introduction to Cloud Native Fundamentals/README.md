@@ -244,3 +244,63 @@ If not, you can manually set the branch to track upstream e.g.:
 ```
 git config --list
 ```
+
+#### .gitconfig
+
+```
+[user]
+        name = <username>
+        email = <email>
+[credential]
+        helper = /mnt/c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe
+        helper =
+        helper = /usr/bin/git-credential-manager-core
+        helper = /mnt/c/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe
+[core]
+        #autocrlf = false
+        #eol = lf
+        filemode = false
+        safecrlf = false
+[credential "https://dev.azure.com"]
+        useHttpPath = true
+
+[filter "lfs"]
+        clean = git-lfs clean -- %f
+        smudge = git-lfs smudge -- %f
+        process = git-lfs filter-process
+        required = true
+```
+
+[lf-will-be-replaced-by-crlf-in-git-what-is-that-and-is-it-important](https://stackoverflow.com/questions/5834014/lf-will-be-replaced-by-crlf-in-git-what-is-that-and-is-it-important)
+
+Summarized succinctly:
+
+> Carriage Return (MAC pre-OSX)
+
+* CR
+* \r
+* ASCII code 13
+
+> Line Feed (Linux, MAC OSX)
+
+* LF
+* \n
+* ASCII code 10
+
+
+> Carriage Return and Line Feed (Windows)
+
+* CRLF
+* \r\n
+* ASCII code 13 and then ASCII code 10
+
+```
+git config core.autocrlf false 
+git rm --cached -r . 
+git reset --hard
+```
+
+
+### [WSL 2.0] How to access git repo with Windows program.
+
+Open `\\wsl$` > Right click on Ubuntu folder icon > Select Map network drive (Z:) > Now Z: can be used as other partition/drive.
