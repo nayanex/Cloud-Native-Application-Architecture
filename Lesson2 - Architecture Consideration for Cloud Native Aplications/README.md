@@ -347,4 +347,165 @@ What practice is used to get the status of an application at a point in time?
 - [x] Health checks
 - [ ] Resource consumption
 
-;
+## Exercise: Endpoints for Application Status
+
+This exercise aims to extend a Python Flask web application with status and metrics endpoints.
+
+### Environment Setup
+
+Set up your environment to extend a Python Flask application:
+
+[clone the repo using git](https://github.com/udacity/nd064_course_1)
+
+
+Extend the Python Flask application with `/status` and `/metrics` endpoints, considering the following requirements:
+
+* Both endpoints should return an HTTP 200 status code
+* Both endpoints should return a JSON response e.g. `{"user": "admin"}`. (Note: the JSON response can be hardcoded at this stage)
+* The `/status` endpoint should return a response similar to this example: `data: {UserCount: 140, UserCountActive: 23}`
+
+Tips: If you get stuck, feel free to check the solution video where detailed operations are demonstrated.
+
+
+[![Solution: Endpoints for Application Status](https://img.youtube.com/vi/Kj_hGnViybg/0.jpg)](https://www.youtube.com/watch?v=Kj_hGnViybg)
+
+The following snippet showcases an example of a Python Flask application, with `/metrics`, `/status` and main page `/` endpoints:
+
+```python
+from flask import Flask
+from flask import json
+
+app = Flask(__name__)
+
+@app.route('/status')
+def status():
+    response = app.response_class(
+            response=json.dumps({"result":"OK - healthy"}),
+            status=200,
+            mimetype='application/json'
+    )
+
+    return response
+
+@app.route('/metrics')
+def metrics():
+    response = app.response_class(
+            response=json.dumps({"status":"success","code":0,"data":{"UserCount":140,"UserCountActive":23}}),
+            status=200,
+            mimetype='application/json'
+    )
+
+    return response
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
+```
+
+## Exercise: Application Logging
+
+Logging is a core factor in increasing the visibility and transparency of an application. When in troubleshooting or debugging scenarios, it is paramount to pin-point the functionality that impacted the service. This exercise will focus on bringing the logging capabilities to an application.
+
+At this stage, you have extended the Hello World application to handle different endpoints. Once an endpoint is reached, a log line should be recorded showcasing this operation.
+
+In this exercise, you need to further develop the Hello World application collect logs, with the following requirements:
+
+* A log line should be recorded the timestamp and the requested endpoint e.g. `"{{TIMESTAMP}}, {{ ENDPOINT_NAME}} endpoint was reached"`
+* The logs should be stored in a file with the name `app.log`. Refer to the [logging Python module](https://docs.python.org/3/library/logging.html#logging.basicConfig) for more details.
+* Enable the collection of Python logs at the `DEBUG` level. Refer to the logging Python module for more details.
+
+[![Solution:Application Logging](https://img.youtube.com/vi/rdoXsSx1ghk/0.jpg)](https://www.youtube.com/watch?v=rdoXsSx1ghk)
+
+The following snippet showcases how logging would be implemented for each endpoint:
+
+```python
+from flask import Flask
+from flask import json
+import logging
+
+app = Flask(__name__)
+
+@app.route('/status')
+def healthcheck():
+    response = app.response_class(
+            response=json.dumps({"result":"OK - healthy"}),
+            status=200,
+            mimetype='application/json'
+    )
+
+    ## log line
+    app.logger.info('Status request successfull')
+    return response
+
+@app.route('/metrics')
+def metrics():
+    response = app.response_class(
+            response=json.dumps({"status":"success","code":0,"data":{"UserCount":140,"UserCountActive":23}}),
+            status=200,
+            mimetype='application/json'
+    )
+
+    ## log line
+    app.logger.info('Metrics request successfull')
+    return response
+
+@app.route("/")
+def hello():
+    ## log line
+    app.logger.info('Main request successfull')
+
+    return "Hello World!"
+
+if __name__ == "__main__":
+
+    ## stream logs to app.log file
+    logging.basicConfig(filename='app.log',level=logging.DEBUG)
+
+    app.run(host='0.0.0.0')
+```
+
+## Edge Case: Amorphous Applications
+
+In the previous sections, we have explored how to choose a suitable architecture for an application and how to apply some of the best development practices. However, this is only the start of the application lifecycle. After an engineering team has successfully released a product, with both monolith and microservices, the next phase in the application lifecycle is maintenance. In this edge case, we will explore commonly used **maintenance** operations after a product is released.
+
+[![Edge Case- Amorphous Application Structure](https://img.youtube.com/vi/FVHuWFZO2jQ/0.jpg)](https://www.youtube.com/watch?v=FVHuWFZO2jQ)
+
+Throughout the maintenance stage, the application structure and functionalities can change, and this is expected! The architecture of an application is not static, it is amorphous and in constant movement. This represents the organic growth of a product that is responsive to customer feedback and new emerging technologies.
+
+Both monolith and microservice-based applications transition in the maintenance phase after the production release. When considering adding new functionalities or incorporating new tools, it is always beneficial to focus on **extensibility rather than flexibility**. Generally speaking, it is more efficient to manage multiple services with a well-defined and simple functionality (as in the case of microservices), rather than add more abstraction layers to support new services (as we’ve seen with the monoliths). However, to have a well-structured maintenance phase, it is essential to understand the reasons an architecture is chosen for an application and involved trade-offs.
+
+Some of the most encountered operations in the maintenance phase are listed below:
+
+![Application operations to occur in the maintenance phase](https://video.udacity-data.com/topher/2020/December/5fde000e_screenshot-2020-12-19-at-13.28.38/screenshot-2020-12-19-at-13.28.38.png)
+
+* A **split** operation - is applied if a service covers too many functionalities and it's complex to manage. Having smaller, manageable units is preferred in this context.
+* A **merge** operation- is applied if units are too granular or perform closely interlinked operations, and it provides a development advantage to merge these together. For example, merging 2 separate services for log output and log format in a single service.
+* A **replace** operation - is adopted when a more efficient implementation is identified for a service. For example, rewriting a Java service in Go, to optimize the overall execution time.
+* A **stale** operation - is performed for services that are no longer providing any business value, and should be archived or deprecated. For example, services that were used to perform a one-off migration process.
+
+Performing any of these operations increases the longevity and continuity of a project. Overall, the end goal is to ensure the application is providing value to customers and is easy to manage by the engineering team. But more importantly, it can be observed that the structure of a project is not static. It amorphous and it evolves based on new requirements and customer feedback.
+
+### Further reading
+
+* [Modern Banking in 1500 Microservices](https://www.youtube.com/watch?v=t7iVCIYQbgk) - watch how Monzo is managing thousands of microservices and evolves their ecosystem
+
+## Lesson Conclusion
+
+[![Lesson Conclusion](https://img.youtube.com/vi/kNkwSTksAUg/0.jpg)](https://www.youtube.com/watch?v=kNkwSTksAUg)
+
+
+In this lesson, we have covered how to build an application using monolith and microservice-based architecture. The choice of an application structure is highly impacted by available resources, requirements, and involved trade-offs. But more importantly, we have covered development practices that should be considered to optimize an application's resilience, time to recovery, and traceability.
+
+Overall, in this lesson, we covered:
+
+* Monoliths and Microservices
+* Trade-offs for Monoliths and Microservices
+* Practices for Application Development
+
+### Glossary
+
+* **Monolith**: application design where all application tiers are managed as a single unit
+* **Microservice**: application design where application tiers are managed as independent, smaller units
