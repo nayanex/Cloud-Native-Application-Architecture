@@ -6,6 +6,7 @@
 
 ### Get Pods
 `kubectl get po`
+
 `kubectl get po -n test-udacity`
 
 ### Get Nodes
@@ -19,6 +20,7 @@
 
 ### Create Deployment
 `kubectl create deploy go-helloworld --image=pixelpotato/go-helloworld:v1.0.0`
+
 `kubectl port-forward po/go-hellowworld-fcd468f98-zjvlg 6111:6111`
 
 > Where go-hellowworld-fcd468f98-zjvlg is the name of the pod which host the container
@@ -37,6 +39,7 @@
 
 ### Label a resource
 `kubectl label deploy nginx-alpine tag=alpine --namespace demo`
+
 `kubectl label ns demo tier=test`
 
 ### create the nginx-alpine deployment 
@@ -54,6 +57,7 @@
 `kubectl expose deploy go-helloworld --port=8111 --target-port=6112`
 
 `kubectl run test-$RANDOM --namespace=default --rm -it --image=alpine -- sh`
+
 `wget -qO- 10.98.151.167:6112 `
 
 ### create a config map
@@ -64,8 +68,11 @@
 
 ### create a Secret to store the secret color value
 `kubectl create secret generic test-secret --from-literal=color=blue`
+
 `kubectl describe secrets test-secret`
+
 `kubectl get secrets test-sec -o yaml`
+
 `echo "cmVk" | base64 -D`
 
 ### Get Logs
