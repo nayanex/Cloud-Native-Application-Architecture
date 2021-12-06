@@ -1,3 +1,28 @@
+# Course Outline
+
+[![Course Outline](https://img.youtube.com/vi/_DPfrnEqj-k/0.jpg)](https://www.youtube.com/watch?v=_DPfrnEqj-k)
+
+## Summary
+
+Throughout the course, we will walk through a realistic example of applying good development practices and containerizing an application, before it's released to a Kubernetes cluster using an automated CI/CD pipeline.
+
+![Microservice Fundamentals course outline](https://video.udacity-data.com/topher/2020/December/5fde2c46_screenshot-2020-12-19-at-16.37.06/screenshot-2020-12-19-at-16.37.06.png)
+
+This **course** has the following lessons:
+
+* Welcome
+* Architecture Considerations
+* Container Orchestration
+* Open Source PaaS
+* Cloud Native CI/CD
+
+In the first lesson, we will cover:
+
+* Introduction to Cloud Native
+* CNCF and Cloud Native tooling
+* Stakeholders
+* Tools, Environment & Dependencies
+
 # Introduction to Cloud-Native Fundamentals
 
 Every organization aims to succeed! This is represented by providing customer value and the ability to be responsive to the surrounding ecosystem. Coincidentally, this is closely correlated with technological innovation, which translates into the adoption of containers, automation, and usage of cloud-native tooling.
@@ -45,6 +70,35 @@ From a **technical perspective**, the adoption of cloud-native tooling represent
 * Observability - ability to independently troubleshoot and debug each component
 
 ## Tools, Environment & Dependencies
+
+* Python, using the instructions provided in the [official Python documentation](https://www.python.org/downloads/)
+
+* Git, using the instructions provided in the [official Git documentation](https://git-scm.com/downloads)
+
+* Docker, using the instructions provided in the [official Docker documentation](https://docs.docker.com/get-docker/)
+
+* Vagrant, using the instructions provided in the [official Vagrant documentation](https://www.vagrantup.com/downloads)
+
+* VirtualBox, using the instructions provided in the [official VirtualBox documentation](https://www.virtualbox.org/wiki/Downloads). Make sure that you have installed VirtualBox in 6.1.16  or a higher version.
+
+# Recap
+
+[![Lesson Conclusiom](https://img.youtube.com/vi/1vpaXWBs6HU/0.jpg)](https://www.youtube.com/watch?v=1vpaXWBs6HU)
+
+In the first lesson, we went through:
+
+* Introduction to Cloud Native
+* CNCF and Cloud Native tooling
+* Stakeholders
+* Tools, Environment & Dependencies
+
+# Good Luck 
+
+[![Lesson Conclusiom](https://img.youtube.com/vi/6QM7iG2wf4I/0.jpg)](https://www.youtube.com/watch?v=6QM7iG2wf4I)
+
+Every organization aims to succeed! This is represented by providing customer value and the ability to be responsive to the surrounding ecosystem. Coincidentally, this is closely correlated with technological innovation, which translates into the adoption of containers, automation, and usage of cloud-native tooling.
+
+By completing this course you will be equipped to lead the adoption of cloud-native tooling and principles within an organization.
 
 
 ### Windows Installations

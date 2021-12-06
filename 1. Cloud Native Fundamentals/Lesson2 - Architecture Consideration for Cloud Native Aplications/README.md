@@ -6,9 +6,11 @@
 
 Before building an application, it is common to go through a design phase to identify the main requirements and structure of an application. In correlation with the available resources, a team will choose the most suitable project architecture.
 
-In the industry, usually, the two main approaches that are usually referenced are **monoliths and microservices**.
+In the industry, usually, the two main approaches that are usually referenced are **monoliths and microservices**. In this lesson, we will explore each architectural model and the implied trade-offs. As well, we will cover good development practices to be considered if an application is targeted for containerization. These practices are valid for both monolith and microservice architectures.
 
-We will cover:
+![Architecture Considerations lesson outline](https://video.udacity-data.com/topher/2020/December/5fdd0741_screen-shot-2020-12-18-at-11.47.00-am/screen-shot-2020-12-18-at-11.47.00-am.png)
+
+In this lesson, we will cover:
 
 * Monoliths and Microservices
 * Trade-offs for Monoliths and Microservices
@@ -256,7 +258,7 @@ Payments:
 
 ## Best Practices For Application Deployment
 
-[![Best Practices For Application Deployment](https://img.youtube.com/vi/BoWGmRCvhtk/0.jpg)](https://www.youtube.com/watch?v=go9eQFhWie8)
+[![Best Practices For Application Deployment](https://img.youtube.com/vi/go9eQFhWie8/0.jpg)](https://www.youtube.com/watch?v=go9eQFhWie8)
 
 Using the knowledge acquired so far, you should be able to choose the most suitable architecture for an application, based on requirements, available resources, and involved trade-offs. The next stage consists of building the application. Regardless of the chosen architecture, a set of good development practices can be applied to improve the application lifecycle throughout the release and maintenance phases. Adopting these practices increases resiliency, lowers the time to recovery, and provides transparency of how a service handles incoming requests.
 
@@ -317,10 +319,10 @@ Resource consumption encapsulates the resources an application requires to be fu
 What practice should be adopted to recreate the full journey of a request, including all the invoked functions?
 
 
-- [x] Health checks
+- [ ] Health checks
 - [ ] Metrics
 - [ ] Logs
-- [ ] Tracing
+- [x] Tracing
 
 
 ### QUESTION 2 OF 4
@@ -355,17 +357,27 @@ This exercise aims to extend a Python Flask web application with status and metr
 
 Set up your environment to extend a Python Flask application:
 
-[clone the repo using git](https://github.com/udacity/nd064_course_1)
+* [clone the repo using git](https://github.com/udacity/nd064_course_1)
+* Navigate inside the `exercises/python-helloworld` folder
+* Using `python` or `flask run` commands, run the `app.py` application
+* Access Hello World application on your local browser (note: Python Flask uses port `5000` by default)
+* Open your editor of choice (IDE or vim) to edit the Hello World application
 
+Once all the pre-requisites are completed, you can get started on developing endpoints to describe the application state.
+### Exercise
 
 Extend the Python Flask application with `/status` and `/metrics` endpoints, considering the following requirements:
 
 * Both endpoints should return an HTTP 200 status code
 * Both endpoints should return a JSON response e.g. `{"user": "admin"}`. (Note: the JSON response can be hardcoded at this stage)
-* The `/status` endpoint should return a response similar to this example: `data: {UserCount: 140, UserCountActive: 23}`
+* The `/status` endpoint should return a response similar to this example: `result: OK - healthy`
+* The `/metrics` endpoint should return a response similar to this example: `data: {UserCount: 140, UserCountActive: 23}`
 
 Tips: If you get stuck, feel free to check the solution video where detailed operations are demonstrated.
 
+### Solution
+
+[My Solution](https://github.com/nayanex/Cloud-Native-Microservice-Applications/tree/main/exercises/python-helloworld)
 
 [![Solution: Endpoints for Application Status](https://img.youtube.com/vi/Kj_hGnViybg/0.jpg)](https://www.youtube.com/watch?v=Kj_hGnViybg)
 
@@ -415,7 +427,10 @@ In this exercise, you need to further develop the Hello World application collec
 
 * A log line should be recorded the timestamp and the requested endpoint e.g. `"{{TIMESTAMP}}, {{ ENDPOINT_NAME}} endpoint was reached"`
 * The logs should be stored in a file with the name `app.log`. Refer to the [logging Python module](https://docs.python.org/3/library/logging.html#logging.basicConfig) for more details.
-* Enable the collection of Python logs at the `DEBUG` level. Refer to the logging Python module for more details.
+* Enable the collection of Python logs at the `DEBUG` level. Refer to the [logging Python module](https://docs.python.org/3/library/logging.html#logging.basicConfig) for more details.
+
+
+## Solution: Application Logging
 
 [![Solution:Application Logging](https://img.youtube.com/vi/rdoXsSx1ghk/0.jpg)](https://www.youtube.com/watch?v=rdoXsSx1ghk)
 
