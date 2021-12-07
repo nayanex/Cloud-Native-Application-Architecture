@@ -231,8 +231,127 @@ Explore Docker registries, alternatives to package an application, and OCI stand
 
 # Docker Walkthrough
 
+This demo provides a step-by-step walkthrough of how to package, build, run, tag, and push a Docker image. You can follow this demo by referencing the Dockerfile from the course repository.
 
+[![Docker Registry](https://img.youtube.com/vi/kldYqVSB23E/0.jpg)](https://www.youtube.com/watch?v=RWClSVNEGIg)
 
+# Useful Docker Commands
+
+Docker provides a rich set of actions that can be used to build, run, tag, and push images. Below is a list of handy Docker commands used in practice.
+
+**Note**: In the following commands the following arguments are used:
+
+**OPTIONS** - define extra configuration through flags
+**IMAGE** - sets the name of the image
+**NAME**- set the name of the image
+**COMMAND** and **ARG** - instruct the container to run specific commands associated with a set of arguments
+
+## Build Images
+
+To build an image, use the following command, where PATH sets the location of the Dockerfile and referenced application files:
+
+```Dockerfile
+docker build [OPTIONS] PATH
+```
+
+## Run Images
+To run an image, use the following command:
+
+```Dockerfile
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+```
+
+## Get Logs
+
+To get the logs from a Docker container, use the following command:
+
+```Dockerfile
+docker logs CONTAINER_ID 
+```
+
+Where the CONTAINER_ID is the ID of the Docker container that runs an application.
+
+## List Images
+
+To list all available images, use the following command:
+
+```Dockerfile
+docker images 
+```
+
+## List Containers
+
+To list all running containers, use the following command:
+
+```Dockerfile
+docker ps 
+```
+
+## Tag Images
+
+To tag an image, use the following command, where SOURCE_IMAGE defines the name of an image on the current machine and TARGET_IMAGE defines the repository, name, and version of an image:
+
+```Dockerfile
+docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG] 
+```
+
+## Login to DockerHub
+
+To login into DockerHub, use the following command:
+
+```Dockerfile
+docker login 
+```
+
+## Push Images
+
+To push an image to DockerHub, use the following command:
+
+```Dockerfile
+docker push NAME[:TAG] 
+```
+
+## Pull Images
+
+To pull an image from DockerHub, use the following command:
+
+```Dockerfile
+docker pull NAME[:TAG]
+```
+
+# Quizzes: Docker for Application Packaging
+
+## QUESTION 1 OF 3
+
+Match the following Docker components with their main functionality:
+
+DOCKER COMPONENT | PURPOSE
+---------------------------
+Dockerfile | Set of instructions to create a Docker image
+Docker image | A read-only template that is used spin up a container
+Docker container | A runnable instance of the Docker image 
+Docker registry | A tool used to store and distribute Docker images
+
+## QUESTION 2 OF 3
+
+By default, Docker will create OCI (Open Container Initiative) compliant images. What is the reason for using OCI guidelines?
+
+[ ] To ensure everyone uses Docker
+[x] To standardize the image formats 
+[x] To ensure that images can execute on OCI compliant runtime
+[ ] To ensure Dockerfiles are used as a standard component 
+
+## QUESTION 3 OF 3
+
+What is the Docker command used to get the following output?
+
+DOCKER COMMAND | OUTPUT
+-------------------------
+Build a Docker image using `Dockerfile.staging` file in the `app/backend` folder | `docker build \ - f Dockerfile.staging app/backend`
+Create an interactive shell to a `busybox` container | `docker run -it  busybox`
+Tag the new image ID as the front-end application in version `v4.5.2`| `docker tag  f10f0a406345 \pixelpotato/frontend:v4.5.2`
+Push the new front-end application to DockerHub | `docker push  \pixelpotato/frontend:v4.5.2`
+Login into the DockerHub using valid credentials | `Docker login`
 
 ### Get deployments
 `kubectl get deploy`
