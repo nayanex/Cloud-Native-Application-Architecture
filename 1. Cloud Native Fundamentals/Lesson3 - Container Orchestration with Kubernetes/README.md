@@ -214,7 +214,7 @@ docker push pixelpotato/python-helloworld:v1.0.0
 Explore Dockerfiles best practices and valid list of instructions:
 
 * [Dockerfile reference](https://docs.docker.com/engine/reference/builder/#from)
-* [Best practices for writing Dockerfiles](Best practices for writing Dockerfiles)
+* [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
 
 Explore how to build and run a Docker image, with a list of all available options:
 
@@ -326,7 +326,7 @@ docker pull NAME[:TAG]
 Match the following Docker components with their main functionality:
 
 DOCKER COMPONENT | PURPOSE
----------------------------
+-----------------|---------
 Dockerfile | Set of instructions to create a Docker image
 Docker image | A read-only template that is used spin up a container
 Docker container | A runnable instance of the Docker image 
@@ -346,7 +346,7 @@ By default, Docker will create OCI (Open Container Initiative) compliant images.
 What is the Docker command used to get the following output?
 
 DOCKER COMMAND | OUTPUT
--------------------------
+---------------|----------
 Build a Docker image using `Dockerfile.staging` file in the `app/backend` folder | `docker build \ - f Dockerfile.staging app/backend`
 Create an interactive shell to a `busybox` container | `docker run -it  busybox`
 Tag the new image ID as the front-end application in version `v4.5.2`| `docker tag  f10f0a406345 \pixelpotato/frontend:v4.5.2`
