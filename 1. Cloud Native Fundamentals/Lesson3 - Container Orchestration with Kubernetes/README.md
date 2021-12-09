@@ -976,7 +976,281 @@ Explore the Kubernetes resources in more detail:
 
 # Kubernetes Resources Part 2
 
-### Application Reachability
+## Application Reachability
+
+
+[![Application Reachability](https://img.youtube.com/vi/ZTKOKZR8Zk0/0.jpg)](https://www.youtube.com/watch?v=ZTKOKZR8Zk0)
+
+Within a cluster, every pod is allocated 1 unique IP which ensures connectivity and reachability to the application inside the pod. This IP is only routable inside the cluster, meaning that external users and services will not be able to connect to the application.
+
+For example, we can connect a workload within the cluster to access a pod directly via its IP. However, if the pod dies, all future requests will fail, as these are routes to an application that is not running. The remediation step is to configure the workload to communicate with a different pod IP. This is a highly manual process, which brings complexity to the accessibility of an application. To automate the reachability to pods, a Service resource is necessary.
+
+### Services
+
+![Pods accessibility through a Service resource](https://video.udacity-data.com/topher/2020/December/5fe095c8_screenshot-2020-12-21-at-12.31.59/screenshot-2020-12-21-at-12.31.59.png)
+
+A **Service** resource provides an abstraction layer over a collection of pods running an application. A Service is allocated a cluster IP, that can be used to transfer the traffic to any available pods for an application.
+
+As such, as shown in the above image, instead of accessing each pod independently, the workload (1) should access the service IP (2), which routes the requests to available pods (3).
+
+There are 3 widely used Service types:
+
+* **ClusterIP** - exposes the service using an internal cluster IP. If no service type is specified, a ClusterIP service is created by default.
+* **NodePort** - expose the service using a port exposed on all nodes in the cluster.
+* **LoadBalancer** - exposes the service through a load balancer from a public cloud provider such as AWS, Azure, or GCP. This will allow the external traffic to reach the services within the cluster securely.
+
+To create a service for an existing deployment, use the kubectl expose deployment command, with the following syntax:
+
+```bash
+# expose a Deployment through a Service resource 
+# NAME - required; set the name of the deployment to be exposed
+# --port - required; specify the port that the service should serve on
+# --target-port - optional; specify the port on the container that the service should direct traffic to
+# FLAGS - optional; provide extra configuration parameters for the service
+kubectl expose deploy NAME --port=port [--target-port=port] [FLAGS]
+
+# Some of the widely used FLAGS are:
+--protocol - set the network protocol. Options [TCP|UDP|SCTP]
+--type - set the type of service. Options [ClusterIP, NodePort, LoadBalancer]
+```
+
+For example, to expose the Go hello-world application through a service, the following command can be used:
+
+```bash
+# expose the `go-helloworld` deployment on port 8111
+# note: the application is serving requests on port 6112
+kubectl expose deploy go-helloworld --port=8111 --target-port=6112
+```
+
+### Ingress
+
+![Ingress resources enabling access from the external users to services within the cluster](https://video.udacity-data.com/topher/2020/December/5fe09d2c_screenshot-2020-12-21-at-13.03.31/screenshot-2020-12-21-at-13.03.31.png)
+
+To enable the external user to access services within the cluster an **Ingress** resource is necessary. An Ingress exposes HTTP and HTTPS routes to services within the cluster, using a load balancer provisioned by a cloud provider. Additionally, an Ingress resource has a set of rules that are used to map HTTP(S) endpoints to services running in the cluster. To keep the Ingress rules and load balancer up-to-date an Ingress Controller is introduced.
+
+For example, as shown in the image above, the customers will access the go-helloworld.com/hi HTTP route (1), which is managed by an Ingress (2). The Ingress Controller (3) examines the configured routes and directs the traffic to a LoadBalancer (4). And finally, the LoadBalancer directs the requests to the pods using a dedicated port (5).
+
+## Application Reachability Demo
+
+[![Demo 6](https://img.youtube.com/vi/ZnLMbCCT-BE/0.jpg)](https://www.youtube.com/watch?v=ZnLMbCCT-BE)
+
+This demo provides a step-by-step guide on how to expose the Go hello-world application through a ClusterIP service. Additionally, an alpine pod is used to showcase how a workload can connect to the Go hello-world application through the service IP and port from within the cluster.
+
+#### New terms
+
+* **Service** - an abstraction layer over a collection of pods running an application
+* **Ingress** - a mechanism to manage the access from external users and workloads to the services within the cluster
+### Further reading
+
+Explore Kubernetes resources used to connect to an application:
+
+* [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
+* [Kubernetes Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+
+# Kubernetes Resources Part 3
+
+## Application Configuration And Context
+
+[![Application Configuration](https://img.youtube.com/vi/7AxryvLR7Vo/0.jpg)](https://www.youtube.com/watch?v=7AxryvLR7Vo)
+
+### Summary
+
+In the implementation phase, a good development practice is to separate the configuration from the source code. This increased the portability of an application as it can cover multiple customer use cases. Kubernetes has 2 resources to pass data to an application: Configmaps and Secrets.
+
+### ConfigMaps
+
+ConfigMaps are objects that store non-confidential data in key-value pairs. A Configmap can be consumed by a pod as an environmental variable, configuration files through a volume mount, or as command-line arguments to the container.
+
+To create a Configmap use the `kubectl create configmap` command, with the following syntax:
+
+```bash
+# create a Configmap
+# NAME - required; set the name of the configmap resource
+# FLAGS - optional; define  extra configuration parameters for the configmap
+kubectl create configmap NAME [FLAGS]
+
+# Some of the widely used FLAGS are:
+--from-file - set path to file with key-value pairs 
+--from-literal - set key-value pair from command-line 
+```
+
+For example, to create a Configmap to store the background color for a front-end application, the following command can be used:
+
+```bash
+# create a Configmap to store the color value
+kubectl create configmap test-cm --from-literal=color=yellow
+```
+
+### Secrets
+
+Secrets are used to store and distribute sensitive data to the pods, such as passwords or tokens. Pods can consume secrets as environment variables or as files from the volume mounts to the pod. It is noteworthy, that Kubernetes will encode the secret values using base64.
+
+To create a Secret use the `kubectl create secret generic` command, with the following syntax:
+
+```bASH
+# create a Secret
+# NAME - required; set the name of the secret resource
+# FLAGS - optional; define  extra configuration parameters for the secret
+kubectl create secret generic NAME [FLAGS]
+
+# Some of the widely used FLAGS are:
+--from-file - set path to file with the sensitive key-value pairs 
+--from-literal - set key-value pair from command-line 
+```
+
+For example, to create a Secret to store the secret background color for a front-end application, the following command can be used:
+
+```bash
+# create a Secret to store the secret color value
+kubectl create secret generic test-secret --from-literal=color=blue
+```
+
+### Namespaces
+
+A Kubernetes cluster is used to host hundreds of applications, and it is required to have separate execution environments across teams and business verticals. This functionality is provisioned by the **Namespace** resources. A Namespace provides a logical separation between multiple applications and associated resources. In a nutshell, it provides the **application context**, defining the environment for a group of Kubernetes resources that relate to a project, such as the amount of CPU, memory, and access. For example, a `project-green` namespace includes any resources used to deploy the Green Project. These resources construct the application context and can be managed collectively to ensure a successful deployment of the project.
+
+Each team or business vertical is allocated a separate Namespace, with the desired amount of CPU, memory, and access. This ensures that the application is managed by the owner team and has enough resources to execute successfully. This also eliminates the "noisy neighbor" use case, where a team can consume all the available resources in the cluster if no Namespace boundaries are set.
+
+To create a Namespace we can use the `kubectl create namespace` command, with the following syntax:
+
+```bash
+# create a Namespace
+# NAME - required; set the name of the Namespace
+kubectl create ns NAME
+```
+
+For example, to create a test-udacity Namespace, the following command can be used:
+
+```bash
+# create a `test-udacity` Namespace
+kubectl create ns test-udacity
+
+# get all the pods in the `test-udacity` Namespace
+kubectl get po -n test-udacity
+```
+
+## Demo - Application Configuration
+
+[![Demo 7](https://img.youtube.com/vi/_4hkxvexULY/0.jpg)](https://www.youtube.com/watch?v=_4hkxvexULY)
+
+This demo showcases how Configmap and Secret resources can be created using literal values from the command line.
+
+## Demo - Application Context
+
+[![Demo 8](https://img.youtube.com/vi/pG3hKT6Q0vA/0.jpg)](https://www.youtube.com/watch?v=pG3hKT6Q0vA)
+
+This demo is a step-by-step guide on how to create a Namespace resource and retrieve resources from a specific Namespace.
+
+#### New terms
+
+* **Configmap** - a resource to store non-confidential data in key-value pairs.
+* **Secret** - a resource to store confidential data in key-value pairs. These are base64 encoded.
+* **Namespace** - a logical separation between multiple applications and associated resources.
+
+#### Further reading
+
+Explore Kubernetes resources to pass configuration to pods:
+
+* [Kubernetes Configmap](https://kubernetes.io/docs/concepts/configuration/configmap/)
+* [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
+* [Kubernetes Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
+
+# Useful kubectl Commands
+
+Kubectl provides a rich set of actions that can be used to interact, manage, and configure Kubernetes resources. Below is a list of handy kubectl commands used in practice.
+
+**Note**: In the following commands the following arguments are used:
+
+* **RESOURCE** is the Kubernetes resource type
+* **NAME** sets the name of the resource
+* **FLAGS** are used to provide extra configuration
+* **PARAMS** are used to provide the required configuration to the resource
+
+#### Create Resources
+To create resources, use the following command:
+
+`kubectl create RESOURCE NAME [FLAGS]`
+
+#### Describe Resources
+
+To describe resources, use the following command:
+
+`kubectl describe RESOURCE NAME`
+
+#### Get Resources
+
+To get resources, use the following command, where -o yaml instructs that the result should be YAML formated.
+
+`kubectl get RESOURCE NAME [-o yaml]`
+
+#### Edit Resources
+
+To edit resources, use the following command, where -o yaml instructs that the edit should be YAML formated.
+
+`kubectl edit RESOURCE NAME [-o yaml]`
+
+#### Label Resources
+
+To label resources, use the following command:
+
+`kubectl label RESOURCE NAME [PARAMS]`
+
+#### Port-forward to Resources
+
+To access resources through port-forward, use the following command:
+
+`kubectl port-forward RESOURCE/NAME [PARAMS]`
+
+#### Logs from Resources
+
+To access logs from a resource, use the following command:
+
+`kubectl logs RESOURCE/NAME [FLAGS]`
+
+#### Delete Resources
+
+To delete resources, use the following command:
+
+`kubectl delete RESOURCE NAME`
+
+# Quizzes: Kubernetes Resources
+
+### QUESTION 1 OF 3
+
+What Kubernetes resources are used to ensure the following functionalities?
+
+`Secrets`, `Ingress`, `Pods`, `Deployments, ReplicaSets and Pods`, `Services and Ingress`, `Secrets and ConfigMaps`, `Namespaces`
+
+FUNCTIONALITY | KUBERNETES RESOURCES
+--------------|---------------------
+Application management | `Deployments, ReplicaSets and Pods`
+Application reachability | `Services and Ingress`
+Application configuration | `Secrets and ConfigMaps`
+Application context | `Namespaces`
+
+### QUESTION 2 OF 3
+
+What Kubernetes resources should be used to direct the external traffic to services within the cluster?
+
+[ ] pods
+[ ] Services
+[x] Ingress
+[ ] Load Balancers
+
+### QUESTION 3 OF 3
+
+What kubectl commands should be used to achieve the following output?
+
+
+OUTPUT | KUBECTL COMMANDS
+-------|-------------------
+Expose the `backend` deployment using a service on port `7633` | `kubectl expose deploy backend --port=7633`
+Create a busybox deployment with 10 replicas, exposed on port `9090` | `kubectl create deploy busybox \
+--image=busybox -r=10 --port=9090`
+Label a configmap with the `tier=networking` key-value pair | `kubectl label configmap app-cm  tier=networking` 
+Delete the `sandbox` namespace | `kubectl delete ns sandbox`
+Describe the secret with the name `team-token `| `kubectl describe secret team-token`
+
 
 
 
