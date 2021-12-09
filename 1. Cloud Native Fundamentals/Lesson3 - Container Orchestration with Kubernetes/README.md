@@ -722,6 +722,264 @@ What are the 3 main sections of a kubeconfig file?
 ### Further reading
 * [Organizing Cluster Access Using kubeconfig Files](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)
 
+# Exercise: Deploy Your First Kubernetes Cluster
+
+So far, you have learned that Kubernetes is a mechanism to manage containers at scale and that there are more than 160+ certified providers to bootstrap a cluster.
+
+Now it's time for you to deploy your first Kubernetes cluster.
+
+This exercise will focus on provisioning a vagrant box and installing a Kubernetes cluster using k3s.
+
+### Environment Setup
+
+Provision a Vagrant box locally and install Kubernetes with k3s.
+
+**Note**: Make sure to have [VirtualBox](https://www.virtualbox.org/wiki/Downloads) `6.1.16` or higher installed .
+
+* Install [vagrant](https://www.vagrantup.com/) on your machine
+* Clone the course [repository](https://github.com/udacity/nd064_course_1)
+* Navigate inside the `exercises`  directory  and examine the `Vagrantfile`
+* Crete a vagrant box by using `vagrant up` command (Note: you need to be in the same repository as the Vagrantfile for this command to work)
+* SSH into the vagrant box by using `vagrant ssh` command
+* Deploy a Kubernetes cluster using [k3s](https://k3s.io/)
+* Examine your cluster using `kubectl`  command (Note: you need to be root to access the kubeconfig file, use `sudo su -` before using kubectl commands  
+
+### Exercise
+
+Now you should have a Kubernetes cluster up and running. Examine the cluster and identity of the following details.
+
+Use the blank space to record your answer if necessary,
+
+#### Reflect
+
+From the kubeconfig, identify:
+
+* the IP and port of the API server
+* authentication mechanism
+
+**Note**: Refer to the main [k3s installation guide](https://rancher.com/docs/k3s/latest/en/quick-start/#install-script), to find the location of the kubeconfig file.
+
+#### Reflect
+
+From the cluster using kubectl commands to identify:
+
+* endpoints of the control plane and add-ons
+* amount of nodes
+* node internal IP
+* the pod CIDR allocate to the node
+
+**Note**: To access kubectl commands you need to become root by using `sudo su -` command.
+
+# Solution: Deploy Your First Kubernetes Cluster
+
+The kubeconfig file and kubectl commands are the 2 main components that permits the interaction with a Kubernetes cluster.
+
+Let's take a closer look at cluster configuration details.
+
+#### kubeconfig
+
+* K3s stores the kubeconfig file under /etc/rancher/k3s/k3s.yaml path
+* API server - https://127.0.0.1:6443
+* authentication mechanism - username (admin) and password
+
+#### kubectl commands
+
+* `kubectl cluster-info` to get the control plane and add-ons endpoints
+
+```bash
+Kubernetes master is running at https://127.0.0.1:6443
+CoreDNS is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+Metrics-server is running at https://127.0.0.1:6443/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
+```
+
+* `kubectl get nodes` - to get all the nodes in the cluster
+
+```bash
+NAME        STATUS   ROLES    AGE   VERSION
+localhost   Ready    master   74m   v1.18.9+k3s1
+```
+
+* `kubectl get nodes -o wide` - to get extra details about the nodes, including internal IP
+
+```bash
+NAME        STATUS   ROLES    AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION            CONTAINER-RUNTIME
+localhost   Ready    master   74m   v1.18.9+k3s1   10.0.2.15     <none>        openSUSE Leap 15.2   5.3.18-lp152.47-default   containerd://1.3.3-k3s2
+```
+
+* `kubectl describe node node-name` - to get all the configuration details about the node, including the allocated pod CIDR
+
+```bash
+kubectl describe node localhost | grep CIDR
+PodCIDR:                      10.42.0.0/24
+PodCIDRs:                     10.42.0.0/24
+```
+
+# Kubernetes Resources Part 1
+
+[![Kubernetes Resources](https://img.youtube.com/vi/zoM1e4zRvGo/0.jpg)](https://www.youtube.com/watch?v=rdoXsSx1ghk)
+
+Up to this stage, we have explored how to package an application using Docker and how to bootstrap a cluster using k3s. In the next phase, we need to deploy the packaged application to a Kubernetes cluster.
+
+Kubernetes provides a rich collection of resources that are used to deploy, configure, and manage an application. Some of the widely used resources are:
+
+* Pods - the atomic element within a cluster to manage an application
+* Deployments & ReplicaSets - oversees a set of pods for the same application
+* Services & Ingress - ensures connectivity and reachability to pods
+* Configmaps & Secrets - pass configuration to pods
+* Namespaces - provides a logical separation between multiple applications and their resources
+* Custom Resource Definition (CRD) - extends Kubernetes API to support custom resources
+
+## Application Deployment
+
+[![2 Kubernetes Resources](https://img.youtube.com/vi/vZioW-pYVC0/0.jpg)](https://www.youtube.com/watch?v=vZioW-pYVC0)
+
+A **pod** is the anatomic element within a cluster that provides the execution environment for an application. Pods are the smallest manageable units in a Kubernetes cluster. Every pod has a container within it, that executes an application from a Docker image (or any OCI-compliant image). There are use cases where 2-3 containers run within the same pod, however, it is highly recommended to keep the 1:1 ratio between your pods and containers.
+
+All the pods are placed on the cluster nodes. A note can host multiple pods for different applications.
+
+![Pod architecture, showcasing a container running a Docker image](https://video.udacity-data.com/topher/2020/December/5fe07d2d_screenshot-2020-12-21-at-10.47.02/screenshot-2020-12-21-at-10.47.02.png)
+
+### Deployments and ReplicaSets
+
+![Application management using a Deployment and ReplicaSet](https://video.udacity-data.com/topher/2020/December/5fe082fd_screenshot-2020-12-21-at-11.11.46/screenshot-2020-12-21-at-11.11.46.png)
+
+To deploy an application to a Kubernetes cluster, a **Deployment** resource is necessary. A Deployment contains the specifications that describe the desired state of the application. Also, the Deployment resource manages pods by using a **ReplicaSet**. A ReplicaSet resource ensures that the desired amount of replicas for an application are up and running at all times.
+
+To create a deployment, use the `kubectl create deployment` command, with the following syntax:
+
+```bash
+# create a Deployment resource
+# NAME - required; set the name of the deployment
+# IMAGE - required;  specify the Docker image to be executed
+# FLAGS - optional; provide extra configuration parameters for the resource
+# COMMAND and args - optional; instruct the container to run specific commands when it starts 
+kubectl create deploy NAME --image=image [FLAGS] -- [COMMAND] [args]
+
+# Some of the widely used FLAGS are:
+-r, --replicas - set the number of replicas
+-n, --namespace - set the namespace to run
+--port - expose the container port
+```
+
+For example, to create a Deployment for the Go hello-world application, the following command can be used:
+
+```
+# create a go-helloworld Deployment in namespace `test`
+kubectl create deploy go-helloworld --image=pixelpotato/go-helloworld:v1.0.0 -n test
+```
+
+It is possible to create headless pods or pods that are not managed through a ReplicaSet and Deployment. Though it is not recommended to create standalone pods, these are useful when creating a testing pod.
+
+To create a headless pod, the `kubectl run` command is handy, with the following syntax:
+
+```bash
+# create a headless pod
+# NAME - required; set the name of the pod
+# IMAGE - required;  specify the Docker image to be executed
+# FLAGS - optional; provide extra configuration parameters for the resource
+# COMMAND and args - optional; instruct the container to run specific commands when it starts 
+kubectl run NAME --image=image [FLAGS] -- [COMMAND] [args...]
+
+# Some of the widely used FLAGS are:
+--restart - set the restart policy. Options [Always, OnFailure, Never]
+--dry-run - dry run the command. Options [none, client, server]
+-it - open an interactive shell to the container
+```
+
+For example, to create a busybox pod, the following command can be used:
+
+```bash
+# example: create a busybox pod, with an interactive shell and a restart policy set to Never 
+kubectl run -it busybox-test --image=busybox --restart=Never
+```
+
+### Rolling Out Strategy
+
+The Deployment resource comes with a very powerful rolling out strategy, which ensures that no downtime is encountered when a new version of the application is released. Currently, there are 2 rolling out strategies:
+
+* RollingUpdate - updates the pods in a rolling out fashion (e.g. 1-by-1)
+* Recreate - kills all existing pods before new ones are created
+
+For example, in this case, we upgrade a Go hello-world application from version 1.0.0 to version 2.0.0:
+
+![Rolling update of an application, between different versions](https://video.udacity-data.com/topher/2020/December/5fe087be_screenshot-2020-12-21-at-11.32.05/screenshot-2020-12-21-at-11.32.05.png)
+
+Where:
+
+1. The Go hello-world application is running version v1.0.0 in a pod managed by a ReplicaSet
+2. The version of Go hello-world application is set to v2.0.0
+3. A new ReplicaSet is created that controls a new pod with the application running in version v2.0.0
+4. The traffic is directed to the pod running v2.0.0 and the pod with the old configuration (v1.0.0) is removed
+
+### Application Development Demo
+
+[![Demo 5](https://img.youtube.com/vi/fK7KBntabK4/0.jpg)](https://www.youtube.com/watch?v=fK7KBntabK4)
+
+This demo showcases how an application can be deployed, configured, and managed within a Kubernetes cluster using Deployment, ReplicaSet, and pod resources.
+
+The instructor uses the Go hello-world application in version v1.0.0 and v2.0.0. The difference between these 2 versions is the exposed port by the application. Below are the code snippets for both application versions (you can also refer to the go-hellowolrd[ application from the course repository):](https://github.com/udacity/nd064_course_1/tree/main/exercises/go-helloworld)
+
+```go
+# Application version: v1.0.0
+# port exposed: 6111
+package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func helloWorld(w http.ResponseWriter, r *http.Request){
+    fmt.Fprintf(w, "Hello World")
+}
+
+func main() {
+    http.HandleFunc("/", helloWorld)
+    http.ListenAndServe(":6111", nil)
+}
+```
+
+```go
+# Application version: v2.0.0
+# port exposed: 6112
+package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func helloWorld(w http.ResponseWriter, r *http.Request){
+    fmt.Fprintf(w, "Hello World")
+}
+
+func main() {
+    http.HandleFunc("/", helloWorld)
+    http.ListenAndServe(":6112", nil)
+}
+```
+
+### New terms
+
+**Pod** - smallest manageable uint within a cluster that provides the execution environment for an application
+**ReplicaSet** - a mechanism to ensure a number of pod replicas are up and running at all times
+**Deployment** - describe the desired state of the application to be deployed
+
+### Further reading
+
+Explore the Kubernetes resources in more detail:
+
+* [Kubernetes Pods](https://kubernetes.io/docs/concepts/workloads/pods/)
+* [Kubernetes Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+* [Kubernetes ReplicaSets](https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/)
+* [Kubernetes RollingOut Strategies](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy)
+
+# Kubernetes Resources Part 2
+
+### Application Reachability
+
+
+
 # SUMMARY - KUBERNETES COMMANDS
 
 ### Get deployments
