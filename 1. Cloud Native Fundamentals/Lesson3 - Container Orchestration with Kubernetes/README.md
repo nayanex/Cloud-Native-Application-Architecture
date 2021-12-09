@@ -513,7 +513,7 @@ Explore Kubernetes features:
 
 * [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)
 * [Kubernetes CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-* [Kubernete Cluster Autoscaler](https://kubernetes.io/blog/2016/07/autoscaling-in-kubernetes/\)
+* [Kubernete Cluster Autoscaler](https://kubernetes.io/blog/2016/07/autoscaling-in-kubernetes/)
 * [Kubernetes Architecture and Components](https://kubernetes.io/docs/concepts/overview/components/)
 
 # Quizzes: Kubernetes
@@ -1233,8 +1233,11 @@ Application context | `Namespaces`
 What Kubernetes resources should be used to direct the external traffic to services within the cluster?
 
 [ ] pods
+
 [ ] Services
+
 [x] Ingress
+
 [ ] Load Balancers
 
 ### QUESTION 3 OF 3
@@ -1245,13 +1248,63 @@ What kubectl commands should be used to achieve the following output?
 OUTPUT | KUBECTL COMMANDS
 -------|-------------------
 Expose the `backend` deployment using a service on port `7633` | `kubectl expose deploy backend --port=7633`
-Create a busybox deployment with 10 replicas, exposed on port `9090` | `kubectl create deploy busybox \
---image=busybox -r=10 --port=9090`
+Create a busybox deployment with 10 replicas, exposed on port `9090` | `kubectl create deploy busybox --image=busybox -r=10 --port=9090`
 Label a configmap with the `tier=networking` key-value pair | `kubectl label configmap app-cm  tier=networking` 
 Delete the `sandbox` namespace | `kubectl delete ns sandbox`
 Describe the secret with the name `team-token `| `kubectl describe secret team-token`
 
+# Exercise: Kubernetes Resources
+Now you have learned many Kubernetes recourses, in this exercise, you will deploy the following resources using the `kubectl` command.
 
+#### a namespace
+
+* name: `demo`
+* label: `tier: test`
+#### a deployment:
+
+* image: `nginx:alpine`
+* name: `nginx-apline`
+* namespace: `demo`
+* replicas: 3
+* labels: `app: nginx`, `tag: alpine`
+#### a service:
+
+* expose the above deployment on port `8111`
+* namespace: `demo`
+#### a configmap:
+
+* name: `nginx-version`
+* containing key-value pair: `version=alpine`
+* namespace: `demo`
+
+**Note**: Nginx is one of the public Docker images, that you can access and use for your exercises or testing purposes.
+
+# Solution: Kubernetes Resources
+
+Below is a snippet creating a namespace and labeling it, a deployment, a service, and a configmap using the kubectl operations.
+
+```bash
+# create the namespace 
+# note: label option is not available with `kubectl create`
+kubectl create ns demo
+
+# label the namespace
+kubectl label ns demo tier=test
+
+# create the nginx-alpine deployment 
+kubectl create deploy nginx-alpine --image=nginx:alpine  --replicas=3 --namespace demo
+
+# label the deployment
+kubectl label deploy nginx-alpine app=nginx tag=alpine --namespace demo
+
+# expose the nginx-alpine deployment, which will create a service
+kubectl expose deployment nginx-alpine --port=8111 --namespace demo
+
+# create a config map
+kubectl create configmap nginx-version --from-literal=version=alpine --namespace demo
+```
+
+**Spoiler alert**: in the next section, you will learn and practice how to deploy Kubernetes resources using a different approach.
 
 
 # SUMMARY - KUBERNETES COMMANDS
