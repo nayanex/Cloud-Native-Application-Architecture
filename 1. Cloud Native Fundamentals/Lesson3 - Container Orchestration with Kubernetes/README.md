@@ -367,7 +367,9 @@ Note: You will require a valid DockerHub account.
 Set up your environment to create a Docker image for an application:
 
 [ ] Clone the [course repository](https://github.com/udacity/nd064_course_1)
+
 [ ] Navigate inside `exercises/go-helloworld` directory
+
 [ ] Follow the `README.md` instructions to run and access the application
 
 Once you can access the application through the local browser, the next steps are to package the application using Docker.
@@ -493,9 +495,232 @@ There are two additional components on the control plane, they are **kubelet** a
 The data plane consists of the compute used to host workloads. The components installed on a worker node are the:
 
 * **kubelet** - the agent that runs on **every** node and notifies the kube- apiserver that this node is part of the cluster
-* kube-proxy - a network proxy that ensures the reachability and accessibility of workloads places on this specific node
+* **kube-proxy** - a network proxy that ensures the reachability and accessibility of workloads places on this specific node
 
-Important Note: The kubelet and kube-proxy components are installed on all the nodes in the cluster (master and worker nodes). These components keep the kube-apiserver up-to-date with a list of nodes in the cluster and manages the connectivity and reachability of the workloads.
+**Important Note**: The **kubelet** and **kube-proxy** components are installed on **all** the nodes in the cluster (master and worker nodes). These components keep the kube-apiserver up-to-date with a list of nodes in the cluster and manages the connectivity and reachability of the workloads.
+
+## New terms
+
+* **CRD** - Custom Resource Definition provides the ability to extend Kubernetes API and create new resources
+* **Node** - a physical or virtual server
+* **Cluster** - a collection of distributed nodes that are used to manage and host workloads
+* **Master node** - a node from the Kubernetes control plane, that has installed components to make global, cluster-level decisions
+* **Worker node** - a node from the Kubernetes data plane, that has installed components to host workloads
+
+## Further Reading
+
+Explore Kubernetes features:
+
+* [Kubernetes DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)
+* [Kubernetes CRDs](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+* [Kubernete Cluster Autoscaler](https://kubernetes.io/blog/2016/07/autoscaling-in-kubernetes/\)
+* [Kubernetes Architecture and Components](https://kubernetes.io/docs/concepts/overview/components/)
+
+# Quizzes: Kubernetes
+
+## QUESTION 1 OF 2
+
+The **control plane** makes the global decisions on the actions within a cluster. Which components are installed on a node to mark it as part of the **control plane**, but at the same time to ensure that this node is part of the Kubernetes cluster?
+
+[x] api-server
+
+[x] etcd
+
+[x] kubelet
+
+[x] kube-proxy
+
+[x] controller-manager
+
+[x] scheduler
+
+## QUESTION 2 OF 2
+
+The **data plane** is used to host workloads onto the cluster. Which components are installed on a node to mark it as part of the **data plane** in a Kubernetes cluster?
+
+[ ] api-server
+
+[x] kube-proxy
+
+[ ] controller-manager
+
+[ ] etcd
+
+[x] kubelet
+
+[ ] scheduler
+
+# Deploy Your First Kubernetes Cluster
+
+## Cluster Creation
+
+[![Deploy Your First Kubernetes Cluster](https://img.youtube.com/vi/ga1RXy9cPw8/0.jpg)](https://www.youtube.com/watch?v=ga1RXy9cPw8)
+
+Provisioning a Kubernetes cluster is known as the bootstrapping process. When creating a cluster, it is essential to ensure that each node had the necessary components installed. It is possible to manually provision a cluster, however, this implied the distribution and execution of each component independently (e.g. kube-apiserver, kube-scheduler, kubelet, etc.). This is a highly tedious task that has a higher risk of misconfiguration.
+
+As a result, multiple tools emerged to handle the bootstrapping of a cluster automatically. For example:
+
+**Production-grade clusters**
+
+* [kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+* [Kubespray](https://github.com/kubernetes-sigs/kubespray)
+* [Kops](https://github.com/kubernetes/kops)
+* [K3s](https://k3s.io/)
+
+**Developmnet-grade clusters**
+
+* [kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
+* [minikube](https://minikube.sigs.k8s.io/docs/start/)
+* [k3d](https://classroom.udacity.com/nanodegrees/nd064/parts/a36eef81-8020-4d6f-b66a-b9adac8837d9/modules/f088b2b9-056b-418a-a366-f260f72402e7/lessons/2bd8696f-bae8-453e-8184-527fd5fe6dad/concepts/link%20to%20https://k3d.io/)
+
+A good introduction to k3d, written by k3d's creator Thorsten Klein, can be found [here](https://www.suse.com/c/introduction-k3d-run-k3s-docker-src/)
+
+A comprehensive overview of currently existing lightweight kubernetes distros can be found [here](https://www.suse.com/c/running-a-local-kubernetes-cluster-k3s-src)
+
+## Create Vagrant Box And Install Kubernetes with k3s
+
+This demo is a step-by-step guide on how to create a vagrant box and install a Kubernetes cluster using [k3s](https://k3s.io/). To follow this demo, reference the [Vagrantfile](https://github.com/udacity/nd064_course_1/blob/main/exercises/Vagrantfile) from the course repository.
+
+A nice introduction to Vagrant can be found in this [article](https://community.suse.com/posts/vagrant-never-gets-old)
+
+Before following the demo:
+
+1. Make sure to have [VirtualBox](https://www.virtualbox.org/wiki/Downloads) `6.1.16` or higher installed.
+2. You also need to install vagrant on your machine.
+
+[![Demo 3](https://img.youtube.com/vi/8Dh3Z2lBR3s/0.jpg)](https://www.youtube.com/watch?v=8Dh3Z2lBR3s)
+
+Throughout the demo, the following kubectl commands are used:
+
+```bash
+# Inspect available vagrant boxes 
+vagrant status 
+
+# create a vagrant box using the Vagrantfile in the current directory
+vagrant up
+
+# SSH into the vagrant box
+# Note: this command uses the .vagrant folder to identify the details of the vagrant box
+vagrant ssh
+```
+
+### New terms
+
+**Bootstrap** - the process of provisioning a Kubernetes cluster, by ensuring that each node has the necessary components to be fully operational
+### Further reading
+
+[Bootstrapping clusters with kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/) - a step-by-step guide on how to use kubeadm to provision a cluster
+
+# Kubeconfig
+
+[![Kubeconfig](https://img.youtube.com/vi/w88M0h9OLw4/0.jpg)](https://www.youtube.com/watch?v=w88M0h9OLw4)
+
+To access a Kubernetes cluster a **kubeconfig** file is required. A kubeconfig file has all the necessary cluster metadata and authentication details, that grants the user permission to query the cluster objects. Usually, the kubeconfig file is stored locally under the `~/.kube/config` file. However, k3s places the kubeconfig file within `/etc/rancher/k3s/k3s.yaml` path. Additionally, the location of a kubeconfig file can be set through the `--kubeconfig` kubectl flag or via the `KUBECONFIG` environmental variable.
+
+A Kubeconfig file has 3 main distinct sections:
+
+* **Cluster** - encapsulates the metadata for a cluster, such as the name of the cluster, API server endpoint, and certificate authority used to check the identity of the user.
+* **User** - contains the user details that want access to the cluster, including the user name, and any authentication metadata, such as username, password, token or client, and key certificates.
+* **Context** - links a user to a cluster. If the user credentials are valid and the cluster is up, access to resources is granted. Also, a `current-context` can be specified, which instructs which context (cluster and user) should be used to query the cluster.
+
+Here is an example of a kubeconfig file:
+
+```yaml
+apiVersion: v1
+# define the cluster metadata 
+clusters:
+- cluster:
+    certificate-authority-data: {{ CA }}
+    server: https://127.0.0.1:63668
+  name: udacity-cluster
+# define the user details 
+users:
+# `udacity-user` user authenticates using client and key certificates 
+- name: udacity-user
+  user:
+    client-certificate-data: {{ CERT }}
+    client-key-data: {{ KEY }}
+# `green-user` user authenticates using a token
+- name: green-user
+  user:
+    token: {{ TOKEN }}
+# define the contexts 
+contexts:
+- context:
+    cluster: udacity-cluster
+    user: udacity-user
+  name: udacity-context
+# set the current context
+current-context: udacity-context
+```
+Once you start handling multiple clusters, you'll find a lot of useful information in this [article](https://community.suse.com/posts/scheduled/cluster-this-is-your-admin-do-you-read)
+
+## Kubeconfig Walkthrough
+
+In this demo, the instructor uses a cluster bootstrapped with [kind](https://kind.sigs.k8s.io/docs/user/quick-start/). Throughout this course, the students will use k3s to provision a cluser. However, in this demo _kind_ is used to highlight how different tools provision the kubeconfig files.
+
+If the students chose to follows this demo, these are the instructions to create a cluster using kind:
+
+**Note**: _kind_ can be installed directly on your local machine
+
+* Ensure Docker is installed and running. Use the `docker --version` command to verify if Docker is installed.
+* Install kind by using the [official installation documentation](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
+* Create a kind cluster using the `kind create cluster --name demo` command
+
+[![Demo 4](https://img.youtube.com/vi/yi1kR9nDw1g/0.jpg)](https://www.youtube.com/watch?v=yi1kR9nDw1g)
+
+Throughout the demo, the following kubectl commands are used:
+
+```bash
+# Inspect  the endpoints for the cluster and installed add-ons 
+kubectl cluster-info
+
+# List all the nodes in the cluster. 
+# To get a more detailed view of the nodes, the `-o wide` flag can be passed
+kubectl get nodes [-o wide] 
+
+# Describe a cluster node.
+# Typical configuration: node IP, capacity (CPU and memory), a list of running pods on the node, podCIDR, etc.
+kubectl describe node {{ NODE NAME }}
+```
+
+### New terms
+
+* **Kubeconfig** - a metadata file that grants a user access to a Kubernetes cluster
+
+# Quizzes: Deploy Your First Kubernetes Cluster
+
+## QUESTION 1 OF 2
+
+What bootstrap tools can be used to provision a production-grade Kubernetes cluster?
+
+[x] Kops
+
+[x] Kubeadm
+
+[x] Kubespray
+
+[x] K3s
+
+[ ] Minikube
+
+[ ] Kind
+
+## QUESTION 2 OF 2
+
+What are the 3 main sections of a kubeconfig file?
+
+[x] Contexts
+
+[x] Users
+
+[ ] Tokens 
+
+[x] Clusters
+
+
+### Further reading
+* [Organizing Cluster Access Using kubeconfig Files](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)
 
 # SUMMARY - KUBERNETES COMMANDS
 
