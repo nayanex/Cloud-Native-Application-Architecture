@@ -193,6 +193,48 @@ Determining an error in Application Execution | Observability
 Determining resource usage | Monitoring
 
 
+# Prerequisites
+
+[![Prerequisites](https://img.youtube.com/vi/sXdrOCG85Dc/0.jpg)](https://www.youtube.com/watch?v=sXdrOCG85Dc)
+
+To be successful in this class, you should have:
+
+* Experience writing basic Python scripts
+* Working knowledge of Shell / Terminal
+* Working knowledge of Vagrant
+* Experience using a terminal-based text editor like Vi(m) or Nano
+* Experience with Kubernetes & kubectl
+* Basic familiarity with REST requests (e.g., GET and POST)
+
+# Tools, Environment & Dependencies
+
+[![T, E & D](https://img.youtube.com/vi/bQvDGo54_Ro/0.jpg)](https://www.youtube.com/watch?v=bQvDGo54_Ro)
+
+Here are all the things we'll need for this course.
+
+* 8 GB of Memory (we will use 2–4)
+* VirtualBox
+* Vagrant
+* OpenSuse Image
+* Prometheus, Grafana, Jaeger
+* K3s
+
+You don't need to worry about all of the installation and setup for these right now—we'll install and configure the items we need as we proceed through the course.
+
+# Lesson Review
+
+[![T, E & D](https://img.youtube.com/vi/tt9h2oRfIh4/0.jpg)](https://www.youtube.com/watch?v=tt9h2oRfIh4)
+
+## Lesson Outline
+
+In this first lesson, we went over the big picture. Why is observability relevant? And what is your role is as an observability engineer? What tools will you need to be able to conduct observability on your cluster?
+
+* **Big Picture: Monitoring in Clusters.** We introduced the big picture of what cloud observability is and how monitoring developed.
+* **Business Stakeholders.** As a cloud observability expert, it's important to understand who the various stakeholders are that you'll be interacting with, so you can understand the sort of events you need to monitor for and how others will be using this information.
+* **Where to Use Observability.** We also talked about the conditions under which observability can be applied, and made a distinction between monitoring your system and observing the individual events within an application.
+* **Prerequisites**. We briefly went over the skills and concepts you should already have in order to ensure success in this course.
+* **Tools, Environment and Dependencies.** Finally, we went over a few technical requirements, along with the software and tools you'll need to install for this course.
+
 
 
 
