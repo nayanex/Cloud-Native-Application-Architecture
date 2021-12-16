@@ -61,6 +61,8 @@ In this lesson, we'll look at how we can use Grafana to visualize the data we've
 
 [![What You'll Build](https://img.youtube.com/vi/lK9SzKTEdDo/0.jpg)](https://www.youtube.com/watch?v=lK9SzKTEdDo)
 
+![Kubernetes Cluster](../images/kubernetes-cluster.png)
+
 For the project at the end of this course, we will create a metrics dashboard. To accomplish this, you'll:
 
 1. Build a **Kubernetes cluster**
@@ -73,6 +75,19 @@ At the end of this process, you'll have your own observability dashboard!
 # What is Observability and Why Does it Matter?
 
 [![Monitoring In Clusters](https://img.youtube.com/vi/Y5LyUhncrg0/0.jpg)](https://www.youtube.com/watch?v=Y5LyUhncrg0)
+
+Historically, we used black box monitoring, which is very much like trying to guess what was wrong without actually being able to look at the source. So you might look for things like disk errors, hypervisor resources alerts and hardware uptime, very much an indirect way. 
+
+A great way to look at this would be to think about a rainstorm. Imagine not having the ability to go outside, look through the window or check a weather app to see what the rain looks like. What you might do instead is see if somebody comes in from the outside. You will see if they are wet, if they are bringing an umbrella. You will look for indirect indicators to determine if it's raining outside.
+
+White Box Monitoring allows us to actually look inside and see what is happening with our applications, so we can see user utilization, HTTP status errors, SQL queries and a lot of other direct data. So using our rain analogy, this would be like us looking out the window, going outside, or just checking our weather app to see if it's actually raining.
+
+![Black and White Box Monitoring](../images/black-white-box-monitoring.png)
+
+
+With Observability, our services are laid out a little better and we can actually trace the execution of the program from service to service until we find the obe that is problematic. We'll only touch the services which are relevant to the issue. That's much easier when try to detect what's going wrong with the application, than haphazardly checking through all of your services.
+
+![What is Observabilty](../images/with-or-without-observability.png)
 
 ## Monolithic Applications vs Microservices
 
@@ -92,6 +107,9 @@ There has always been a need to monitor application performance, but the approac
 
 * **Without observability**, we would often have to search through every single service to identify a problem.
 * **With observability**, we can look inside the application and even trace through the execution of the application to gather detailed performance data on its individual components.
+
+![Monitoring vs Observability](../images/monitoring-vs-observability.png)
+
 
 ### QUESTION 1 OF 2
 
@@ -156,6 +174,8 @@ Observability has traditionally been broken down into two components: Monitoring
 ### Monitoring
 
 In **monitoring**, we are looking at the system or infrastructure itself. In the context of this course, the system would be a Kubernetes cluster. Monitoring is obviously valuable, but does not tell us what is happening inside of our applications. If an app has performance issues, monitoring will not give us insight on the cause of the issue.
+
+Monitoring is great when it comes to looking into hardware and system errors. However, it doesn't really tell us much about what's happening in our application. It may gives us indicators, such as low memory availability, but it doesn't actually tell us what's happening in the application.
 
 ### Observability
 
