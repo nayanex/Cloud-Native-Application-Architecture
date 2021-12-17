@@ -67,13 +67,13 @@ Jaeger | `Tracing`
 
 Which of the following is a part of **OpenTelemetry**?
 
-[ ] OpenApplication
+- [ ] OpenApplication
 
-[ ] OpenWatcher
+- [ ] OpenWatcher
 
-[ ] OpenNative
+- [ ] OpenNative
 
-[x] OpenTracing
+- [x] OpenTracing
 
 # Installing Prometheus and Grafana
 
@@ -86,9 +86,9 @@ You'll see that this repo contains two main directories:
 * The **Exercise_Starter_Files** directory contains the files you'll need for the exercises (like this one) found throughout the course.
 * The **Project_Starter_Files** directory contains the files you'll be using for the project at the end of the course.
 
-[ ] Clone or download the repo
+- [ ] Clone or download the repo
 
-[ ] Go to the **Exercise_Starter_Files** directory to find the files you'll need for all of the exercises.
+- [ ] Go to the **Exercise_Starter_Files** directory to find the files you'll need for all of the exercises.
 
 [![Installing Prometheus And Grafana](https://img.youtube.com/vi/CxjoALZdfds/0.jpg)](https://www.youtube.com/watch?v=CxjoALZdfds)
 
@@ -104,11 +104,11 @@ Installing Helm is important as this is a common tool used for monitoring and ap
 
 Why do we use Helm 3 instead of Helm 2?
 
-[ ] Never is always better
+- [ ] Never is always better
 
-[ ] Helm 3 is much faster and has more packages
+- [ ] Helm 3 is much faster and has more packages
 
-[x] It is more secure since removing the `Tiller` requirement
+- [x] It is more secure since removing the `Tiller` requirement
 
 In a real life situation, we would likely be using some kind of ingress to expose the services to the world. There are a variety of them such as [Istio](https://istio.io/), [Gloo from Solo.io](https://github.com/solo-io/gloo/), [NGINX](https://kubernetes.github.io/ingress-nginx/), [Contour](https://projectcontour.io/) and many others. Different companies and different teams use different solutions.
 
@@ -130,13 +130,13 @@ For this course, you can simply follow our commands—but we encourage you to ch
 When Exposing the service with kubectl and portforwarding, what ports will we use?
 (Select all that apply.)
 
-[ ] 433
+- [ ] 433
 
-[x] 80
+- [x] 80
 
-[x] 3000
+- [x] 3000
 
-[ ] 2020
+- [ ] 2020
 
 [![Installing Prometheus And Grafana Demo](https://img.youtube.com/vi/N6gx6qqSCUA/0.jpg)](https://www.youtube.com/watch?v=N6gx6qqSCUA)
 
@@ -164,7 +164,7 @@ Please Note for this course, you will be running `kubectl` in the Vagrant VM. If
 
 **Prerequisites**
 
-* Vagrant 2.2.XX and VirtuaBox 6.1.X should be installed on your local. Start the VirtualBox.
+* `Vagrant 2.2.XX` and `VirtuaBox 6.1.X` should be installed on your local. Start the VirtualBox.
 * Download the Github repository. Navigate to the _CNAND_nd064_C4_Observability_Starter_Files/Exercise_Starter_Files_ directory that contains the Vagrantfile, and run these commands to provision the Vagrant VM:
 ```
 # Run from the directory that contains the Vagrantfile
@@ -237,17 +237,17 @@ password: prom-operator
 
 Checklist: Install Prometheus and Grafana with Helm
 
-[ ] Install Helm3
+- [ ] Install Helm3
 
-[ ] Create the `monitoring` namespace
+- [ ] Create the `monitoring` namespace
 
-[ ] Install Helm Repository for Prometheus
+- [ ] Install Helm Repository for Prometheus
 
-[ ] Install Prometheus using Helm
+- [ ] Install Prometheus using Helm
 
-[ ] Use kubectl to port forward, then navigate to 127.0.0.1:3000
+- [ ] Use kubectl to port forward, then navigate to 127.0.0.1:3000
 
-[ ] To log into Grafana use password "prom-operator"
+- [ ] To log into Grafana use password "prom-operator"
 
 
 ### QUIZ QUESTION
@@ -256,13 +256,13 @@ Now let's check if the installation ran correctly. Run kubectl get pods -n monit
 
 (The `xxxxx` is randomly generated, but the rest is mostly static.)
 
-[x] prometheus-prometheus-node-exporter-xxxxx
+- [x] prometheus-prometheus-node-exporter-xxxxx
 
-[ ] prometheus-node-reader-xxxxx
+- [ ] prometheus-node-reader-xxxxx
 
-[ ] prometheus-grafana-node-exporter-xxxxx
+- [ ] prometheus-grafana-node-exporter-xxxxx
 
-[ ] prometheus-prometheus-xxxxx-exporter
+- [ ] prometheus-prometheus-xxxxx-exporter
 
 # Installing Jaeger
 
@@ -276,13 +276,13 @@ While not required, best practices state to install Jaeger in a separate namespa
 
 What namespace do we want to install Jaeger in?
 
-[ ] monitoring
+- [ ] monitoring
 
-[ ] jaeger
+- [ ] jaeger
 
-[x] observability
+- [x] observability
 
-[ ] tracing
+- [ ] tracing
 
 ### QUESTION 2 OF 2
 
@@ -290,13 +290,13 @@ What are the two main purpose of tracing?
 
 (Select **two** correct answers.)
 
-[x Follow the flow of data in an application
+- [x] Follow the flow of data in an application
 
-[ ] Determine application uptime
+- [ ] Determine application uptime
 
-[x] Test latency in the application
+- [x] Test latency in the application
 
-[ ] Provide CPU Metrics
+- [ ] Provide CPU Metrics
 
 The purpose of tracing is to determine where there may be errors in the application itself. We aren't as concerned about uptime—that's the purpose of monitoring
 
@@ -349,15 +349,100 @@ kubectl create -n ${namespace} -f https://raw.githubusercontent.com/jaegertracin
 kubectl create -n ${namespace} -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/operator.yaml
 ```
 
+3. Expand the roles to the Cluster. In other words, enable the cluster-wide permissions:
+
 ```bash
 kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/cluster_role.yaml
 
 kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/cluster_role_binding.yaml
-
-
 ```
 
+![Creating a namespace and other mandatory installations](https://video.udacity-data.com/topher/2021/October/615c2f3c_screenshot-2021-10-05-at-4.06.00-pm/screenshot-2021-10-05-at-4.06.00-pm.png)
 
+4. Verify:
+
+```bash
+kubectl get deployments jaeger-operator -n observability
+kubectl get pods,svc -n observability
+# OPTIONAL - Deploy a sample application
+# Note that the command below is an updated one.
+kubectl apply -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/examples/business-application-injected-sidecar.yaml
+```
+
+![Verification and applying the business-application-injected-sidecar.yaml template](https://video.udacity-data.com/topher/2021/October/615c2f72_screenshot-2021-10-05-at-4.18.03-pm/screenshot-2021-10-05-at-4.18.03-pm.png)
+
+### Reference
+
+[Getting started with jaeger-operator](https://github.com/jaegertracing/jaeger-operator#getting-started)
+
+### Checklist: Install Jaeger
+
+- [ ] Create the `observability` namespace
+- [ ] Install Jaeger using the files listed above
+
+### QUIZ QUESTION
+
+Run `kubectl get pods -n observability` in your terminal. Which one of these most closely matches your results?
+
+- [x] jaeger-operator
+- [ ] jaeger-tracer
+- [ ] jaeger-deployment
+- [ ] jaegertrace-operator
+
+# Using ELK
+
+[![Edge Case- Using ELK](https://img.youtube.com/vi/5tiZnObO-bk/0.jpg)](https://www.youtube.com/watch?v=5tiZnObO-bk)
+
+* **ElasticSearch** is an open source NoSQL database used for indexing data and creating custom search engines.
+* **Logstash** is an open source log collector and transformer. It is used to collect logs from various sources to be ingested and stored in ElasticSearch.
+* **Kibana** is the open source dashboard and graphs tool. Similar to Grafana, it makes it easier to design visualizations of data.
+
+This is great for people who:
+
+* Already use ElasticSearch
+* Need SQL-like language
+* Need a search engine
+* No time-series data requirement
+* Have other alerting tools
+
+### QUESTION 1 OF 2
+
+Elk is ElasticSearch plus what two components?
+
+- [ ] Logstash and Kanban
+
+- [ ] Logger and Kibana
+
+- [ ] Logger and Kanban
+
+- [x] Logstash and Kibana
+
+### QUESTION 2 OF 2
+
+Which of these scenarios would be good reasons to use an ELK stack vs a Prometheus/Grafana stack?
+
+(Select all that apply.)
+
+- [ ] ELK is more cost efficient than Prometheus/Grafana.
+
+- [x] ElasticSearch is currently used in your environment.
+
+- [ ] Developers are moving towards ELK and Prometheus is seen as a deprecated tool.
+
+- [x] There is a use case for SQL like language.
+
+- [ ] ELK has a better record for storing durable data.
+
+# Lesson Review
+
+
+## Lesson Outline
+
+This lesson will get you set up with the tools you need to start doing observability in your cluster.
+
+* **Understanding your components**. First, we looked at the big picture. We considered three major needs that we will encounter when trying to do observability: System data, application data, and data visualization. Then we discussed why the three tools we're using—Prometheus, Jaeger, and Grafana—are great choices for addressing each of these needs.
+* **Installing Prometheus, Grafana, and Jaeger**. Next, we got into the details of how to install Prometheus, Grafana, and Jaeger, and how to confirm that the installations were successful.
+* **Edge Case: Using ELK**. Although the tools we are using in this course are excellent, industry-standard tools, it's always good to be aware of other options you may run into during your time as an observability expert. So at the end of the lesson, we briefly considered `ELK` or `Elasticsearch`, `Logstash`, `Kibana`, which is a stack that serves as a popular alternative to the one we use in this course.
 
 
 
