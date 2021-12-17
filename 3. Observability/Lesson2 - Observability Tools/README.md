@@ -49,6 +49,10 @@ Here are the key points about all three apps, for your reference:
 * It is often bundled with Prometheus
 * Expandable with plugins
 
+### Why to use these tools in particular?
+
+They are recognized by the Cloud Native Computing Foundation (CNCF), which is an independent governing body that oversees the [Cloud Native ecosystem](https://landscape.cncf.io/). Rather than having one or two corporations dictate the ecosystem, the larger community can. Because of this, it has become the industry standard. Most of its products are recognized as being the gold standard for cloud computing in their respective spaces. Jaeger and Prometheus are considered graduated projects. They were donated by other companies and have gotten to a state where they can stand on their own. Grafana being a private company is a silver member. This means they are partnered with CNCF and they follow all of their standards and guidelines
+
 ### QUESTION 1 OF 2
 
 Below are the three tools we just discussed. Can you can match each of them tools with the most appropriate use case?
@@ -64,9 +68,309 @@ Jaeger | `Tracing`
 Which of the following is a part of **OpenTelemetry**?
 
 [ ] OpenApplication
+
 [ ] OpenWatcher
+
 [ ] OpenNative
+
 [x] OpenTracing
+
+# Installing Prometheus and Grafana
+
+### Get the starter code
+
+To follow along with the demonstrations and exercises in this course, you'll need some starter files that we've provided in this [GitHub repo](https://github.com/udacity/CNAND_nd064_C4_Observability_Starter_Files).
+
+You'll see that this repo contains two main directories:
+
+* The **Exercise_Starter_Files** directory contains the files you'll need for the exercises (like this one) found throughout the course.
+* The **Project_Starter_Files** directory contains the files you'll be using for the project at the end of the course.
+
+[ ] Clone or download the repo
+
+[ ] Go to the **Exercise_Starter_Files** directory to find the files you'll need for all of the exercises.
+
+[![Installing Prometheus And Grafana](https://img.youtube.com/vi/CxjoALZdfds/0.jpg)](https://www.youtube.com/watch?v=CxjoALZdfds)
+
+### Installing Helm
+
+> **Helm** is a popular package manager for Kubernetes. It uses a templating language to make the managing of multiple Kubernetes items in a single application easier to package, install, and update.
+
+Installing Helm is important as this is a common tool used for monitoring and application maintenance. If you get a job as an observability engineer, it is likely you will be asked to install and update applications with Helm. You will also be responsible for patching Prometheus, Grafana and other tools on the cluster so it is good to be familiar with the installation process.
+
+[![Installing Prometheus And Grafana Pt 2](https://img.youtube.com/vi/XxZCMgOnUrQ/0.jpg)](https://www.youtube.com/watch?v=XxZCMgOnUrQ)
+
+### QUESTION 1 OF 2
+
+Why do we use Helm 3 instead of Helm 2?
+
+[ ] Never is always better
+
+[ ] Helm 3 is much faster and has more packages
+
+[x] It is more secure since removing the `Tiller` requirement
+
+In a real life situation, we would likely be using some kind of ingress to expose the services to the world. There are a variety of them such as [Istio](https://istio.io/), [Gloo from Solo.io](https://github.com/solo-io/gloo/), [NGINX](https://kubernetes.github.io/ingress-nginx/), [Contour](https://projectcontour.io/) and many others. Different companies and different teams use different solutions.
+
+For the purposes of this course, we will be using `kubectl port-forward`. This is a simple way to forward a Kubernetes service's port to a local port on your machine. This is something you would never do in production but would regularly do in testing.
+
+An example would be if you ran this command:
+
+```
+kubectl port-forward service/my-service 7000:80
+```
+
+Here you are forwarding the Kubernetes service called my-service and using local port 7000, forwarding it to service port 80.
+
+For this course, you can simply follow our commands—but we encourage you to check out [more details on best practices in the Kubernetes documentation here](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/).
+
+
+### QUESTION 2 OF 2
+
+When Exposing the service with kubectl and portforwarding, what ports will we use?
+(Select all that apply.)
+
+[ ] 433
+
+[x] 80
+
+[x] 3000
+
+[ ] 2020
+
+[![Installing Prometheus And Grafana Demo](https://img.youtube.com/vi/N6gx6qqSCUA/0.jpg)](https://www.youtube.com/watch?v=N6gx6qqSCUA)
+
+
+### Note:
+
+When installing via the Prometheus Helm chart, the default Grafana credentials are:
+
+```
+username: admin 
+password: prom-operator
+```
+
+whereas the Grafana documentation states (admin:admin).
+
+### Additional Resources
+
+If you would like to learn more about Prometheus and why it is the standard, you can check out [CNCF's website here](https://landscape.cncf.io/selected=prometheus).
+
+# Exercise: Installing Prometheus and Grafana
+
+Alright, now that you've seen the process, it's time to install Prometheus and Grafana for yourself! The steps are listed below.
+
+Please Note for this course, you will be running `kubectl` in the Vagrant VM. If you are familiar with port forwarding and setting up Kubernetes contexts, you can run `kubectl` on your local machine.
+
+**Prerequisites**
+
+* Vagrant 2.2.XX and VirtuaBox 6.1.X should be installed on your local. Start the VirtualBox.
+* Download the Github repository. Navigate to the _CNAND_nd064_C4_Observability_Starter_Files/Exercise_Starter_Files_ directory that contains the Vagrantfile, and run these commands to provision the Vagrant VM:
+```
+# Run from the directory that contains the Vagrantfile
+vagrant up
+vagrant ssh
+kubectl version
+```
+
+### Exercise Instructions
+
+1. First we will need to install Helm v3. You can do it by running the command below.
+
+```
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+```
+
+2. Next, we want to create the `monitoring` namespace
+
+```
+kubectl create namespace monitoring
+```
+
+3. Following along with what you saw in the video, install Prometheus and Grafana with Helm. You may have noticed that I installed some CRDs in the video. In version 0.4.2 of the operator, it was needed. As of this update, we are on version 0.7 which no longer needs those CRDs which is why you won't see the command here any longer.
+
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+# helm repo add stable https://kubernetes-charts.storage.googleapis.com # this is deprecated
+helm repo add stable https://charts.helm.sh/stable
+helm repo update
+#helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --kubeconfig /etc/rancher/k3s/k3s.yaml
+
+helm install prometheus prometheus-community/kube-prometheus-stack  --namespace monitoring 
+```
+
+### Kubeconfig
+
+By default, kubectl looks for a file named config in the `$HOME/.kube` directory. You can specify other **kubeconfig** files by setting [the KUBECONFIG environment](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) variable or by setting the `--kubeconfig` flag.
+
+For step-by-step instructions on creating and specifying [kubeconfig](https://rancher.com/docs/rke/latest/en/kubeconfig/) files, see Configure [Access to Multiple Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/).
+
+**NOTE**: By default, `kubectl` checks `~/.kube/config` for a kubeconfig file, but you can use any directory you want using the `--kubeconfig` flag. For example:
+
+`kubectl --kubeconfig /custom/path/kube.config get pods`
+
+![Installing Helm v3, Prometheus and Grafana](https://video.udacity-data.com/topher/2021/October/615c2373_screenshot-2021-10-05-at-3.18.50-pm/screenshot-2021-10-05-at-3.18.50-pm.png)
+
+
+4. Verify that it installed
+
+```
+kubectl get pods,svc --namespace=monitoring
+```
+
+You should see six options.
+
+5. You can port-forward this by running the following command
+
+`kubectl port-forward service/prometheus-grafana --address 0.0.0.0 3000:80 -n monitoring`
+
+![Kubectl port forwarding](https://video.udacity-data.com/topher/2021/October/615c23cd_screenshot-2021-10-05-at-3.28.13-pm/screenshot-2021-10-05-at-3.28.13-pm.png)
+
+6. Access the Grafana using the credentials:
+
+```
+username: admin 
+password: prom-operator
+```
+
+![Accessing Grafana at http://127.0.0.1:3000](https://video.udacity-data.com/topher/2021/October/615c23fd_screenshot-2021-10-05-at-3.37.48-pm/screenshot-2021-10-05-at-3.37.48-pm.png)
+
+Checklist: Install Prometheus and Grafana with Helm
+
+[ ] Install Helm3
+
+[ ] Create the `monitoring` namespace
+
+[ ] Install Helm Repository for Prometheus
+
+[ ] Install Prometheus using Helm
+
+[ ] Use kubectl to port forward, then navigate to 127.0.0.1:3000
+
+[ ] To log into Grafana use password "prom-operator"
+
+
+### QUIZ QUESTION
+
+Now let's check if the installation ran correctly. Run kubectl get pods -n monitoring in your terminal. Which one of these most closely matches your results?
+
+(The `xxxxx` is randomly generated, but the rest is mostly static.)
+
+[x] prometheus-prometheus-node-exporter-xxxxx
+
+[ ] prometheus-node-reader-xxxxx
+
+[ ] prometheus-grafana-node-exporter-xxxxx
+
+[ ] prometheus-prometheus-xxxxx-exporter
+
+# Installing Jaeger
+
+In this next video, Jay will walk through the process of installing Jaeger. Again, we recommend that you just watch the process and then install it for yourself on the following page.
+
+[![Installing Jaeger](https://img.youtube.com/vi/h8bXnNnUquM/0.jpg)](https://www.youtube.com/watch?v=h8bXnNnUquM)
+
+While not required, best practices state to install Jaeger in a separate namespace called `observability`. This makes it easier to secure tracing functions from monitoring functions while also giving them separate spaces to operate.
+
+### QUESTION 1 OF 2
+
+What namespace do we want to install Jaeger in?
+
+[ ] monitoring
+
+[ ] jaeger
+
+[x] observability
+
+[ ] tracing
+
+### QUESTION 2 OF 2
+
+What are the two main purpose of tracing?
+
+(Select **two** correct answers.)
+
+[x Follow the flow of data in an application
+
+[ ] Determine application uptime
+
+[x] Test latency in the application
+
+[ ] Provide CPU Metrics
+
+The purpose of tracing is to determine where there may be errors in the application itself. We aren't as concerned about uptime—that's the purpose of monitoring
+
+### Additional Resources
+
+If you would like to learn more about OpenTelemetry and why it is being adopted as a tracing standard, you can [check out their website here.](https://opentelemetry.io/)
+
+# Install Jaeger Operator
+
+### Prerequisites
+
+* The Vagrant VM having Prometheus and Grafana should be up and running. You can use a new terminal tab to open up a new SSH session to your VM.
+
+### Exercise Instructions
+
+In this exercise you will install Jaeger Tracing to your cluster.
+
+We will be using the files hosted in the official [Jaeger GitHub Repo](https://github.com/jaegertracing/jaeger). Run the below code to create the _observability_ namespace and install the Jaeger components:
+
+1. Create a namespace:
+
+`kubectl create namespace observability`
+
+#or
+
+```bash
+export namespace=observability
+kubectl create namespace ${namespace}
+```
+
+2. Installations for the Jaeger Operator:
+
+```bash
+# https://knowledge.udacity.com/questions/746251
+export jaeger_version=v1.28.0
+
+# jaegertracing.io_jaegers_crd.yaml
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/crds/jaegertracing.io_jaegers_crd.yaml
+
+# service_account.yaml
+kubectl create -n ${namespace} -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/service_account.yaml
+
+# role.yaml
+kubectl create -n ${namespace} -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/role.yaml
+
+# role_binding.yaml
+kubectl create -n ${namespace} -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/role_binding.yaml
+
+# operator.yaml
+kubectl create -n ${namespace} -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/operator.yaml
+```
+
+```bash
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/cluster_role.yaml
+
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/${jaeger_version}/deploy/cluster_role_binding.yaml
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
