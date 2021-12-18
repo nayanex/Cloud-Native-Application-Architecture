@@ -115,25 +115,25 @@ There has always been a need to monitor application performance, but the approac
 
 What is **observability**?
 
-[x] It is the ability to measure the internal functions of a system
+- [x] It is the ability to measure the internal functions of a system
 
-[ ] It is the ability to watch an application while it deploys
+- [ ] It is the ability to watch an application while it deploys
 
-[ ] It is the ability to review logs
+- [ ] It is the ability to review logs
 
-[ ] It is the ability to read stdout of your application. 
+- [ ] It is the ability to read stdout of your application. 
 
 ### QUESTION 2 OF 2
 
 A modern approach to cloud native architecture typically involves…
 
-[ ] A **monolithic**  application and **white box** monitoring, so that we have architecture **with observability**
+- [ ] A **monolithic**  application and **white box** monitoring, so that we have architecture **with observability**
 
-[ ] A **microservices**-based application and **black box** monitoring, so that we have architecture **with observability**
+- [ ] A **microservices**-based application and **black box** monitoring, so that we have architecture **with observability**
 
-[ ] A **monolithic**  application and **white box** monitoring, so that we have architecture **without observability**
+- [ ] A **monolithic**  application and **white box** monitoring, so that we have architecture **without observability**
 
-[x] A **microservices**-based  application and **white box** monitoring, so that we have architecture **with observability**
+- [x] A **microservices**-based  application and **white box** monitoring, so that we have architecture **with observability**
 
 
 # Business Stakeholders
@@ -157,13 +157,13 @@ As you can see, there is a wide variety of stakeholders who all have an interest
 
 Why would a **release manager** care about observability?
 
-[x] The ability to see if an application failed on deploy.
+- [x] The ability to see if an application failed on deploy.
 
-[ ] The ability to see if the application UX is nicer than the old version.
+- [ ] The ability to see if the application UX is nicer than the old version.
 
-[ ] The ability to change code on the fly. 
+- [ ] The ability to change code on the fly. 
 
-[ ] The ability to easily name branches in Git. 
+- [ ] The ability to easily name branches in Git. 
 
 # Monitoring and Observability
 
@@ -193,13 +193,13 @@ Which of the following statements are correct?
 
 (Select all that apply.)
 
-[x] Monitoring is used to take a look at the infrastructure
+- [x] Monitoring is used to take a look at the infrastructure
 
-[x] Observability gives us a view inside the app
+- [x] Observability gives us a view inside the app
 
-[ ] Monitoring gives us a view inside the app
+- [ ] Monitoring gives us a view inside the app
 
-[ ] Observability is used to take a look at the infrastructure
+- [ ] Observability is used to take a look at the infrastructure
 
 ### QUESTION 2 OF 2
 

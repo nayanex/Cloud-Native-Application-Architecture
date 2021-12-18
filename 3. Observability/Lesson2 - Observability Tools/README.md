@@ -407,7 +407,7 @@ This is great for people who:
 
 ### QUESTION 1 OF 2
 
-Elk is ElasticSearch plus what two components?
+ELK is ElasticSearch plus what two components?
 
 - [ ] Logstash and Kanban
 
@@ -443,23 +443,3 @@ This lesson will get you set up with the tools you need to start doing observabi
 * **Understanding your components**. First, we looked at the big picture. We considered three major needs that we will encounter when trying to do observability: System data, application data, and data visualization. Then we discussed why the three tools we're using—Prometheus, Jaeger, and Grafana—are great choices for addressing each of these needs.
 * **Installing Prometheus, Grafana, and Jaeger**. Next, we got into the details of how to install Prometheus, Grafana, and Jaeger, and how to confirm that the installations were successful.
 * **Edge Case: Using ELK**. Although the tools we are using in this course are excellent, industry-standard tools, it's always good to be aware of other options you may run into during your time as an observability expert. So at the end of the lesson, we briefly considered `ELK` or `Elasticsearch`, `Logstash`, `Kibana`, which is a stack that serves as a popular alternative to the one we use in this course.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

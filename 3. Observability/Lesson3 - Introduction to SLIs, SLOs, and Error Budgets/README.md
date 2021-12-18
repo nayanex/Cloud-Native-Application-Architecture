@@ -1,6 +1,6 @@
 # SLIs, SLOs, and Error Budgets
 
-[![Lesson Overview](https://img.youtube.com/vi/EV-b_GgnqMQ.jpg)](https://www.youtube.com/watch?v=EV-b_GgnqMQ)
+[![Lesson Overview](https://img.youtube.com/vi/EV-b_GgnqMQ/0.jpg)](https://www.youtube.com/watch?v=EV-b_GgnqMQ)
 
 ## Lesson Outline
 
@@ -20,7 +20,7 @@ We need to know what it is that we are trying to measure and what sire reliabili
 
 # Measuring Performance (How Should we define its)
 
-[![Defining Performance](https://img.youtube.com/vi/vNQNY9IYp.jpg)](https://www.youtube.com/watch?v=vNQNY9IYp)
+[![Defining Performance](https://img.youtube.com/vi/vNQNY9IYp-E.jpg)](https://www.youtube.com/watch?v=vNQNY9IYp-E)
 
 Remember, the main value that we as site reliability engineers add, that is not provided by other roles like sysadmins and DevOps engineers, is that we ensure that a deployed application has a good level of performance for the customer. We call this the service level.
 
