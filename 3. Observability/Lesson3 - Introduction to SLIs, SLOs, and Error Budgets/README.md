@@ -20,7 +20,7 @@ We need to know what it is that we are trying to measure and what sire reliabili
 
 # Measuring Performance (How Should we define its)
 
-[![Defining Performance](https://img.youtube.com/vi/vNQNY9IYp-E.jpg)](https://www.youtube.com/watch?v=vNQNY9IYp-E)
+[![Defining Performance](https://img.youtube.com/vi/vNQNY9IYp-E/0.jpg)](https://www.youtube.com/watch?v=vNQNY9IYp-E)
 
 Remember, the main value that we as site reliability engineers add, that is not provided by other roles like sysadmins and DevOps engineers, is that we ensure that a deployed application has a good level of performance for the customer. We call this the service level.
 
@@ -64,7 +64,7 @@ If you would like to learn more about Service Level Objects, check out this [cha
 
 # Learning about SLOs
 
-[![Service-Level Objectives](https://img.youtube.com/vi/y2TZaBq3EuE.jpg)](https://www.youtube.com/watch?v=y2TZaBq3EuE)
+[![Service-Level Objectives](https://img.youtube.com/vi/y2TZaBq3EuE/0.jpg)](https://www.youtube.com/watch?v=y2TZaBq3EuE)
 
 ## What is an SLO?
 
@@ -192,5 +192,38 @@ Hopefully this gives you some confidence in your ability to write SLOs. In the e
 4. Give a specific service level you want to achieve
 5. Specify a period of time
 
-Your answers may be worded in a different way from mine, but if they include all of those factors then you are on the right track.
+# Service-Level Indicators (SLIs)
+
+[![Service-Level Indicators (SLIs)](https://img.youtube.com/vi/LP93wsC1sYE/0.jpg)](https://www.youtube.com/watch?v=LP93wsC1sYE)
+
+We've just learned what SLOs are and how we can use them to set goals. But how do we know when we’ve reached that goal? This is where *Service-Level Indicators* come in.
+
+> A **Service-Level Indicator (SLI)** is a specific metric used to measure the performance of a service.
+
+Sometimes the term SLI is used to refer to the general metric—such as _uptime_ or _latency_. But really what we need in the end is an actual _measurement_. For example, suppose that your team has the following SLO:
+
+> The application will have an uptime of 99.9% during the next year.
+
+In this case, your SLI would be the actual measurement of the uptime. Perhaps during that year, you actually achieved 99.5% _uptime_ or 97.3% uptime. These measurements are your SLIs—they indicate the level of performance your service actually exhibited, and show you whether you achieved your SLO (in this case, the SLIs show that performance fell short of your objective).
+
+Notice that the above example is a **ratio**. Specifically, it is a ratio of a **measurement** to a given amount of **time** (the measured uptime per year). When you think of SLIs, think in terms of ratios like this—a ratio of X / Y, where X is usually a measurement and Y is usually an amount of time.
+
+### QUIZ QUESTION
+
+The terminology surrounding SLOs, SLIs, and signals can get a little confusing.I t can be a little tricky to see the distinction between them. Below are some examples. Can you identify which is which?
+
+**EXAMPLE** | **SLO, SLI, OR SIGNAL**
+------------|---------------------------
+The average time taken to return a request will be less than 200 ms, during the month of May. | `SLO`
+The average time taken to return a request during the month of May was 194 ms. | `SLI`
+Latency | `General Type of Metric Used`
+
+### Additional Resources
+
+If you would like to learn more about the distinction between SLOs and SLIs, you may want to check out:
+
+* [This blog post from Elisa Binette on best practices for setting SLOs and SLIs](https://blog.newrelic.com/engineering/best-practices-for-setting-slos-and-slis-for-modern-complex-systems/)
+* [This blog post from Google Cloud Platform on SLIs, SLOs, and SLAs](https://cloud.google.com/blog/products/gcp/sre-fundamentals-slis-slas-and-slos)
+
+# Exercise: SLIs
 
