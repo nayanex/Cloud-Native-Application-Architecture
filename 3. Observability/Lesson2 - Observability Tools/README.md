@@ -6,9 +6,9 @@ In this lesson, we'll look at the main tools we need for cluster observability. 
 
 This lesson will get you set up with the tools you need to start doing observability in your cluster.
 
-**Understanding your components.** First, we'll look at the big picture. We'll consider three major needs that we will encounter when trying to do observability: System data, application data, and data visualization. Then we'll discuss why the three tools we're going to use—Prometheus, Jaeger, and Grafana—are great choices for addressing each of these needs.
-**Installing Prometheus, Grafana, and Jaeger.** Next, we'll get into the details of how to install Prometheus, Grafana, and Jaeger, and how to confirm that the installations were successful.
-**Edge Case: Using ELK.** Although the tools we are using in this course are excellent, industry-standard tools, it's always good to be aware of other options you may run into during your time as an observability expert. So at the end of the lesson, we will briefly consider **ELK** or **Elasticsearch, Logstash, Kibana**, which is a stack that serves as a popular alternative to the one we use in this course.
+* **Understanding your components.** First, we'll look at the big picture. We'll consider three major needs that we will encounter when trying to do observability: System data, application data, and data visualization. Then we'll discuss why the three tools we're going to use—Prometheus, Jaeger, and Grafana—are great choices for addressing each of these needs.
+* **Installing Prometheus, Grafana, and Jaeger.** Next, we'll get into the details of how to install Prometheus, Grafana, and Jaeger, and how to confirm that the installations were successful.
+* **Edge Case: Using ELK.** Although the tools we are using in this course are excellent, industry-standard tools, it's always good to be aware of other options you may run into during your time as an observability expert. So at the end of the lesson, we will briefly consider **ELK** or **Elasticsearch, Logstash, Kibana**, which is a stack that serves as a popular alternative to the one we use in this course.
 
 ![Observability Tools](../images/observability-tools.png)
 
