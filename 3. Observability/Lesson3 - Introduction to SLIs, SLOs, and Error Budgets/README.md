@@ -119,6 +119,7 @@ Your company is working on modernizing their applications. This decision was tri
 Use the matching quiz to order the steps you would need to take to help your customers.
 
 STEP ORDER | STEP ACTION
+-----------|----------------
 First | `Document User Journey by Business Impact`
 Second | `Identify Services Involved in Journey`
 Third | `Determine Metrics to use to measure customer experience.`
@@ -165,7 +166,7 @@ For example, if we took *wait time* or *bagger availability*, the SLOs might be 
 
 Compare your answers with these two. Do they include all the key components of an SLO?
 
-[![Real-World SLO Examples](https://video.udacity-data.com/topher/2020/October/5f91f633_nd064-c4-l2-a04-exercises-slos/nd064-c4-l2-a04-exercises-slos_720p.mp4)
+[Real-World SLO Examples Video](https://video.udacity-data.com/topher/2020/October/5f91f633_nd064-c4-l2-a04-exercises-slos/nd064-c4-l2-a04-exercises-slos_720p.mp4)
 
 ## Part 2: Technical/Site Reliability SLOs
 
@@ -226,4 +227,154 @@ If you would like to learn more about the distinction between SLOs and SLIs, you
 * [This blog post from Google Cloud Platform on SLIs, SLOs, and SLAs](https://cloud.google.com/blog/products/gcp/sre-fundamentals-slis-slas-and-slos)
 
 # Exercise: SLIs
+
+## Exercise: SLIs
+
+### Reflect on SLIs
+
+Suppose that you are monitoring the performance of services at a fast food restaurant. See if you can describe 3–5 SLIs that you could use to measure performance.
+
+[![Exercises- SLIs](https://img.youtube.com/vi/autFO9CM44I/0.jpg)](https://www.youtube.com/watch?v=autFO9CM44I)
+
+### QUESTION 2 OF 2
+
+Suppose you have the following SLO:
+
+> HTTP requests will take 10ms or less to complete (on average) each month.
+
+When you look at your SLI, you are finding that in actuality it takes around 20ms. Your team was able to address the issue with a rollback. What next step should be taken?
+
+- [ ] Perform a postmortem to identify the root cause
+- [ ] Adjust the error budget to a more reasonable rate.
+- [ ] Change the SLO and SLI policy of your organization. 
+- [ ] Improve your CI/CD pipeline to more adequately test your code prior to release. 
+
+# Error Budgets
+
+[![Error Budget](https://img.youtube.com/vi/--NpwJ1QzJ4/0.jpg)](https://www.youtube.com/watch?v=--NpwJ1QzJ4)
+
+No matter how hard we try, inevitably there will be some downtime. For that reason, we give ourselves a buffer or _error budget_.
+
+> An **error budget** is a buffer in an SLO that allows for a small amount of error.
+
+Error budgets can be visualized with this formula:
+
+> Error budget = 100% – SLO
+
+For example, when we state an SLO like:
+
+> The application will have 99.9% uptime each month.
+
+We are giving ourselves a buffer of 0.1% of the month to experience downtime—meaning that experiencing a small—perhaps unavoidable—amount of downtime will not indicate we failed to meet the objective.
+
+### QUESTION 1 OF 2
+
+If we have an SLO that states that we will have an uptime of 99.95%, what is our error budget?
+
+- [x] 0.05%
+- [ ] 0.5%
+- [ ] 1%
+- [ ] 0.1%
+
+### QUESTION 2 OF 2
+
+Suppose you find that you are **exceeding your error budget**. Below are some events that might cause this to happen. For some of them, you should take immediate action or re-evaluate your SRE strategy. For others, you should not take any action.
+
+For which of these should you take action or re-evaluate your strategy?
+
+(Select two correct answers.)
+
+- [ ] Company wide network outage
+- [ ] Another team was responsible for the outage and they are working on it
+- [x] A postmortem reveals an excessively restrictive policy
+- [ ] The error budget consumption was out of scope (e.g., someone was performing a load test)
+- [x] A bug in the code
+
+#### Correct!
+
+You will always want to do a postmortem to figure out what happened. Sometimes you will find instances where an SLO is too restrictive and you may need to re-evaluate your strategy.
+
+And of course, if there is a bug in the code, you should address it, since the service itself shouldn't be causing failures.
+
+# Exercise: Error Budgets
+
+### QUESTION 1 OF 2
+
+Suppose we set the following SLO:
+
+> The application will be available 97% of the time during each month.
+
+This past month, you received 10,500,000 HTTP requests. How many requests can be HTTP 500 responses?
+
+- [ ] 300,000
+- [ ] 10,000,000
+- [x] 315,000
+- [ ] 150,000
+- [ ] 10,185,000
+
+### QUESTION 2 OF 2
+
+Your error budget is 25 minutes of downtime per month. This past month you had 45 minutes of downtime. It was determined that the issue was related to your database caching maxing out its disk space every other week. You are asked to make some recommendations on how we can address this in the future. Which are the best ideas?
+
+(Select all that apply.)
+
+- [ ] Tell engineering to rewrite the code
+
+- [x] Determine what occurs every other week
+
+- [ ] Expand the disk size of the cache
+
+- [x] Find what services are using the cache
+
+# Service-Level Agreements (SLAs)
+
+[![Time To Create SLAs](https://img.youtube.com/vi/S7Og1RTjXS4/0.jpg)](https://www.youtube.com/watch?v=S7Og1RTjXS4)
+
+
+Generally speaking, SLAs are more of a concern for the customers, business development teams, and legal departments than the SRE team.
+
+Although you as an SRE typically won't have to work directly with Service-Level Agreements on a daily basis, it's still good to have an awareness of them.
+
+> **Service-Level Agreements (SLAs)** are legally binding contracts that guarantee a service level to the customer
+
+If the SLA is not met, typically the company will provide some form of compensation to the customer.
+
+### QUIZ QUESTION
+
+Which one of these would typically be out of scope for an SLA for a Platform as a Service company?
+
+- [ ] The uptime of your managed databases.
+- [ ] The uptime of your servers. 
+- [ ] The software services that automates the deployment of customer software.
+- [x] The service that your customer deploys.
+
+# Lesson Review
+
+## Lesson Outline
+
+[![Lesson Review](https://img.youtube.com/vi/1PzsQl-Y1J0/0.jpg)](https://www.youtube.com/watch?v=1PzsQl-Y1J0)
+
+This lesson was all about reliability metrics. In order to observe performance, we first needed to get clear on how we are defining and measuring it, and that's what we covered in this lesson.
+
+* **Defining performance.** The first thing we needed to do was define what we mean by site reliability or performance. We talked about performance in terms of providing a certain level of service, and we went over what are called the four golden signals that are used in site reliability modeling.
+* **Service-Level Objectives (SLOs).** We also needed a clear objective or goal, and this is where Service-Level Objectives (or SLOs) come in. We talked about what Service Level Objectives are and what factors to consider when setting them.
+* **Service-level indicators (SLIs).** Once we have a clear definition and objective for the level of performance we want to deliver, we need to consider how we will actually measure this performance. This is done using service-level indicators or SLIs.
+* **Error Budgets.** Since we cannot guarantee 100% performance, we need to plan for errors. For example, if we are OK with 99% reliability on a metric, that means we have an error budget of 1%. We are deciding that if things get any worse than that 1%, this is a signal to us that an improvement is needed.
+* **Building SLAs.** Finally, we brought this all together and examined Service-Level Agreements (SLAs). While you personally won’t have to worry about SLAs in your role as an observability engineer, it is important to understand the context of SLAs as it does play a part in the overall SRE model.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
