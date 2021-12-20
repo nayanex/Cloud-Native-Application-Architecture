@@ -72,21 +72,31 @@ Now that we are clear about the Four Golden Signals, we are ready to set some sp
 
 > A **Service-Level Objective** (SLO) is a measurable goal set by the SRE team to ensure a standard level of performance during a specified period of time.
 
-For example, we might specify an SLO like "99.99% uptime per month". Typically SLOs are measured in terms of latency and uptime, although it is not unusual for SRE teams to add additional goals.
+For example, we might specify an SLO like "99.99% uptime per month". Typically SLOs are measured in terms of latency and uptime, although it is not unusual for SRE teams to add additional goals like _database speed_ and _disk availability_.
 
 ## User Journey
+
+![User Journey](../images/user-journey.png)
 
 When creating an SLO, it is important to be customer-centric. If we keep user experience and expectations at the center of our planning, we will have a strong SLO strategy. A common way to make sure you are customer-centered in your strategy is to map out a **user journey** for the application.
 
 Here is a process you can follow to help ensure your SLOs are customer-centric:
 
 * **Do what a user would do**. You will want to stress test the product and use it the same way the user would.
-* **Map the journey to services**. Once you understand the customer journey, you can map out what that journey looks like in terms of what specific services are used.
+* **Map the journey to services**. Once you understand the customer journey, you can map out what that journey looks like in terms of what specific services are used. e.g.: When I click the "checkout" button, what services are hit to complete that action?
 * **Find the metrics**. Once you know what services are involved, you can identify the metrics for those services.
-* **Determine goals**. Once we have relevant metrics in mind, it is relatively easy to determine what goals would be reasonable and would tap into these metrics.
-* **Design formal SLOs**. Once you have your goals, it's time to formalize them as SLOs. These SLOs will then appear in your team charter, and you and your team will have a clear objective that you can be accountable for.
+* **Determine goals**. Once we have relevant metrics in mind, it is relatively easy to determine what goals would be reasonable and would tap into these metrics. e.g.: uptime of 99.9% over a month etc.
+* **Design formal SLOs**. Once you have your goals, it's time to formalize them as SLOs. These SLOs will then appear in your `team charter`, and you and your team will have a clear objective that you can be accountable for.
 
 Basing your SLOs on a user journey is very important because, at the end of the day, the person who ultimately cares about performance is the user
+
+Choose just enough SLOs to provide good coverage of your system’s attributes. Defend the SLOs you pick: if you can’t ever win a conversation about priorities by quoting a particular SLO, it’s probably not worth having that SLO.
+
+### Perfection can wait
+
+You can always refine SLO definitions and targets over time as you learn about a system’s behavior. It’s better to start with a loose target that you tighten than to choose an overly strict target that has to be relaxed when you discover it’s unattainable.
+
+SLOs can—and should—be a major driver in prioritizing work for SREs and product developers, because they reflect what users care about. A good SLO is a helpful, legitimate forcing function for a development team. But a poorly thought-out SLO can result in wasted work if a team uses heroic efforts to meet an overly aggressive SLO, or a bad product if the SLO is too lax. SLOs are a massive lever: use them wisely.
 
 ### QUESTION 1 OF 3
 A key aspect of an SLO is that they involve measurable objectives. Below are some different metrics we can use when creating SLOs. Can you match each metric with the correct description?
@@ -131,13 +141,13 @@ If you would like to learn more about Service Level Objectives, check out [this 
 
 # Exercise: SLOs
 
-For your project at the end of this course—as well as during your everyday work as an SRE—you'll need to work with SLOs. So let's get a little practice.
+During your everyday work as an SRE—you'll need to work with SLOs. So let's get a little practice.
 
 ## Part 1: Non-Technical SLOs
 
 It may help to think about SLOs that apply to everyday, non-technical situations. While you may be new to the term "SLO", I guarantee that you have experienced SLOs in real life—albeit under different names (such as "customer satisfaction").
 
-Suppose that you are working on **improving the customer service at a grocery store**. In the space provided on the right, see if you can write at least three SLOs related to this goal.
+Suppose that you are working on **improving the customer service at a grocery store**. 
 
 Keep in mind that your SLOs should:
 
@@ -147,7 +157,7 @@ Keep in mind that your SLOs should:
 * Specify a certain level of service (e.g., 99%)
 * Specify a period of time (e.g., per day, per month, etc.)
 
-What you came up with may be different, but here are some things I thought of that we could measure:
+Here are some things that we could measure:
 
 * *Wait time in line*
 * *Item availability*
@@ -170,9 +180,7 @@ Compare your answers with these two. Do they include all the key components of a
 
 ## Part 2: Technical/Site Reliability SLOs
 
-Now try doing the same thing, based on core metrics or signals (such as the Four Golden Signals) that we use to measure site reliability.
-
-Again, there are a variety of answers you may have given for this, but they should be related to some of the core metrics/signals we use as observability experts, such as:
+Some of the core metrics/signals we use as observability experts based on core metrics or signals (such as the Four Golden Signals) are:
 
 * Latency
 * Error rate
@@ -182,6 +190,7 @@ Again, there are a variety of answers you may have given for this, but they shou
 * Saturation
 
 So if we take these metrics and use them to create SLOs, we would have things like:
+
 * **99% of all HTTP statuses will be 20x in a given month (Uptime)**
 * **99% of all requests will take less than 20ms in a given month (Latency)**
 
@@ -197,7 +206,7 @@ Hopefully this gives you some confidence in your ability to write SLOs. In the e
 
 [![Service-Level Indicators (SLIs)](https://img.youtube.com/vi/LP93wsC1sYE/0.jpg)](https://www.youtube.com/watch?v=LP93wsC1sYE)
 
-We've just learned what SLOs are and how we can use them to set goals. But how do we know when we’ve reached that goal? This is where *Service-Level Indicators* come in.
+How do we know when we’ve reached that goal? This is where *Service-Level Indicators* come in.
 
 > A **Service-Level Indicator (SLI)** is a specific metric used to measure the performance of a service.
 
@@ -208,6 +217,23 @@ Sometimes the term SLI is used to refer to the general metric—such as _uptime_
 In this case, your SLI would be the actual measurement of the uptime. Perhaps during that year, you actually achieved 99.5% _uptime_ or 97.3% uptime. These measurements are your SLIs—they indicate the level of performance your service actually exhibited, and show you whether you achieved your SLO (in this case, the SLIs show that performance fell short of your objective).
 
 Notice that the above example is a **ratio**. Specifically, it is a ratio of a **measurement** to a given amount of **time** (the measured uptime per year). When you think of SLIs, think in terms of ratios like this—a ratio of X / Y, where X is usually a measurement and Y is usually an amount of time.
+
+Choosing too many indicators makes it hard to pay the right level of attention to the indicators that matter, while choosing too few may leave significant behaviors of your system unexamined. A handful of representative indicators are enough to evaluate and reason about a system’s health.
+
+Services tend to fall into a few broad categories in terms of the SLIs they find relevant:
+
+* **User-facing serving systems**, such as frontends, generally care about `availability`, `latency`, and `throughput`. In other words: Could we respond to the request? How long did it take to respond? How many requests could be handled?
+* **Storage systems** often emphasize `latency`, `availability`, and `durability`. In other words: How long does it take to read or write data? Can we access the data on demand? Is the data still there when we need it? 
+* **Big data systems**, such as data _processing pipelines_, tend to care about `throughput` and `end-to-end latency`. In other words: How much data is being processed? How long does it take the data to progress from ingestion to completion? (Some pipelines may also have targets for latency on individual processing stages.)
+* All systems should care about `correctness`: was the right answer returned, the right data retrieved, the right analysis done? `Correctness` is important to track as an indicator of system health, even though it’s often a property of the data in the system rather than the infrastructure per se, and so usually not an SRE responsibility to meet.
+
+### An SLI Needs to...
+
+* Be _intentional_. e.g.: "measure CPU saturation"
+* Be _relevant_. Match with the stated SLO. e.g.: "How many error messages are we seeing?"
+* Focus on the _Four Golden Signals_
+* Be _measurable_.e.g.: "The amount of milliseconds it takes for a request to complete"
+* Have _direct impact_
 
 ### QUIZ QUESTION
 
@@ -228,13 +254,25 @@ If you would like to learn more about the distinction between SLOs and SLIs, you
 
 # Exercise: SLIs
 
-## Exercise: SLIs
-
 ### Reflect on SLIs
 
 Suppose that you are monitoring the performance of services at a fast food restaurant. See if you can describe 3–5 SLIs that you could use to measure performance.
 
+* Number of orders/hour
+* Number of 5-star ratings/day
+* Number of returned orders/week
+* Hamburgers sold/month
+
 [![Exercises- SLIs](https://img.youtube.com/vi/autFO9CM44I/0.jpg)](https://www.youtube.com/watch?v=autFO9CM44I)
+
+### What Happens When You Miss SLIs?
+
+* **Triage:** Check what is happening and try to get the system back up and running
+* **Mitigate:** Determine the best course of action
+ - **Rollback:** Is it going to take some time to fix the issue? Then rollback to last known working version.
+ - **Patch:** Sometimes somebody knows exactly what they did wrong and they can fix it relatively quickly.
+* **Postmortem:** Learn from what happened. Take a look at everything that happened, when the issue was first reported. what indicators we saw? Did we see any error message? What steps were taken to diagnose the issue? Gather all information useful to determine the root cause and prevent anything like this to happen again.
+* **Act:** Have a team meeting and decide how you want to change things. 
 
 ### QUESTION 2 OF 2
 
@@ -266,6 +304,8 @@ For example, when we state an SLO like:
 > The application will have 99.9% uptime each month.
 
 We are giving ourselves a buffer of 0.1% of the month to experience downtime—meaning that experiencing a small—perhaps unavoidable—amount of downtime will not indicate we failed to meet the objective.
+
+It’s both unrealistic and undesirable to insist that SLOs will be met 100% of the time: doing so can reduce the rate of innovation and deployment, require expensive, overly conservative solutions, or both. Instead, it is better to allow an error budget—a rate at which the SLOs can be missed—and track that on a daily or weekly basis. Upper management will probably want a monthly or quarterly assessment, too.
 
 ### QUESTION 1 OF 2
 
