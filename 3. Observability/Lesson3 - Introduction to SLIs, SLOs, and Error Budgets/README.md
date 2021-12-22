@@ -307,6 +307,24 @@ We are giving ourselves a buffer of 0.1% of the month to experience downtime—m
 
 It’s both unrealistic and undesirable to insist that SLOs will be met 100% of the time: doing so can reduce the rate of innovation and deployment, require expensive, overly conservative solutions, or both. Instead, it is better to allow an error budget—a rate at which the SLOs can be missed—and track that on a daily or weekly basis. Upper management will probably want a monthly or quarterly assessment, too.
 
+### Maintenance Windows
+
+We want our error budget to have a purpose, learn from our mistakes, but we also want to try to reduce hitting that error budget as much as possible. One way to avoid hitting an error budget is to use maintenance windows. One of the biggest ways people see downtime is when they're trying to make changes to the system, so you will set **dedicated times for maintenance**. Usually this will be at a **low traffic time**. So if you see that nobody is really using your website from, let's say, midnight to 3AM, that'd be a great time to have maintenance window.
+
+You'll also want to **direct traffic to a separate environment**. Best practice is to have at least two environments, maybe more for high availability and that way when you are working on the changes on environment 1, you just redirect all the users to a clone of that environment.
+
+### No-Blame Policy
+
+* Don't blame people and focus on fixing issues as a team. 
+* Create a safe environment by focusing on fixing errors rather than pointing fingers.
+
+### When to Disconsider an Error Budget?
+
+* **Who owns the problem?** Many teams are spread out. You might have multiple teams in your organization for different projects. Maybe somebody already acknowledged that is already working on it.
+* **Is it withing your power of scope?** 
+* **Was testing occurring?** Did you error budget lapse during a penetration or load test?
+* **Categorization**: e.g.: maybe the service is a beta version that shouldn't be measured or monitored at all. So disconsider it.
+
 ### QUESTION 1 OF 2
 
 If we have an SLO that states that we will have an uptime of 99.95%, what is our error budget?
